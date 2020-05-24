@@ -1,12 +1,26 @@
-body {
-    font-family: "Arial";
+header nav ul {
+    font-family: Arial;
+    list-style-type: none;
+    margin:0;
+    padding: 8px;
 }
-#box {
-    background-color: rgb(249,246,249);
-    border-color: rgb(249,246,249);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: -1;
+header nav ul li {
+    font-size: 20pt;
+    float: right;
+    width: 120px;
+    position: relative;
+    top: 50%;
+    text-align: center;
+    margin: 0;
+    padding: 8px;
+}
+header nav ul li a {
+    color: rgb(32,34,37);
+    display: block;
+    margin: 0;
+    padding: 10px;
+    text-decoration: none;
+}
+a.current {
+    text-decoration: underline;
 }

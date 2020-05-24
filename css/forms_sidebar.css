@@ -1,0 +1,27 @@
+
+aside {
+    background-color: rgb(245,245,245);
+}
+#sidebar {
+    background-color: rgb(245,245,245);
+    border-color: rgb(245,245,245);
+    width: 15%;
+    position: absolute;
+    top: 150px;
+    left: 50px;
+}
+#sidebar ul li {
+    list-style-type: none;
+    font-family: "Arial";
+    font-size: 16pt;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    transform: translate(-12.5%, -5%);
+}
+#sidebar ul li a {
+    text-decoration: none;
+}
+#sidebar ul li a.current {
+    text-decoration: underline;
+}

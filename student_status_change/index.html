@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>UCSF Doctor's Academy - Login</title>
+    </head>
+    <link href="/css/student_status_change.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/forms_sidebar.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/header.css" type="text/css" rel="stylesheet"/>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <img src="/media/ucsffresno.png">
+                    <li><a href="">Logout</a></li>
+                    <li><a href="/student_search/index.html">Students</a></li>
+                    <li><a href="/forms/index.html" class="current">Forms</a></li>
+                    <li><a href="/advisor_home/index.html">Home</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div id="sidebar">
+            <ul>
+                <li><a href="/new_student_form/index.html">New Student Form</a></li>
+                <li><a href="/student_status_change/index.html" class="current">Student Status Change Form</a></li>
+            </ul>
+        </div>
+        <article>
+            <p style="font-size:24pt">Student Status Change Form</p>
+            <form>
+                <label for="current_status">Current Status: </label>
+                <select name="current_status">
+                    <option value="intervention">Intervention</option>
+                    <option value="probation">Probation</option>
+                    <option value="excused">Excused</option>
+                    <option value="withdrawn">Withdrawn</option>
+                    <option value="moved">Moved</option>
+                </select>
+            </form>
+        </article>
+    </body>
+</html>

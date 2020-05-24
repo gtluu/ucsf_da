@@ -1,0 +1,9 @@
+body {
+    font-family: "Arial";
+}
+article {
+    width: 80%;
+    position: absolute;
+    top: 150px;
+    left: 25%;
+}
