@@ -1,0 +1,12 @@
+body {
+    font-family: "Arial";
+}
+#box {
+    background-color: rgb(249,246,249);
+    border-color: rgb(249,246,249);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+}
