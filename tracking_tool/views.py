@@ -20,6 +20,14 @@ def advisor_home():
 def forms():
     return flask.render_template('forms.html')
 
+@app.route('/new_student_form')
+def new_student_form():
+    return flask.render_template('new_student_form.html')
+
+@app.route('/student_status_change')
+def student_status_change():
+    return flask.render_template('student_status_change.html')
+
 @app.route('/students')
 def students():
     return flask.render_template('students.html')
