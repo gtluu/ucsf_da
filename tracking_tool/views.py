@@ -1,6 +1,6 @@
 import flask
+from tracking_tool import app
 
-app = flask.Flask(__name__)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -27,6 +27,3 @@ def students():
 @app.route('/')
 def main():
     return flask.render_template('index.html')
-
-if __name__ == '__main__':
-    app.run()
