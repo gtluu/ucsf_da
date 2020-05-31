@@ -15,19 +15,27 @@ class User():
         cur = mysql.connect().cursor()
         cur.execute("SELECT username, password, salt, id, authorization FROM users WHERE username = '" +
                     self.username + "'")
-        username, password, salt, id, authorization = cur.fetchone()
-        cur.close()
-        self.password = hashlib.sha512(self.password.encode('utf-8') + salt.encode('utf-8')).hexdigest()
-        if self.username == username and self.password == password:
-            self.id = id
-            self.auth = int(authorization)
-            return True
+        results = cur.fetchone()
+        if results:
+            username, password, salt, id, authorization = results
+            cur.close()
+            self.password = hashlib.sha512(self.password.encode('utf-8') + salt.encode('utf-8')).hexdigest()
+            if self.username == username and self.password == password:
+                self.id = id
+                self.auth = int(authorization)
+                return True
+        else:
+            cur.close()
+            return False
 
 
-def check_session(page):
+def check_session(page, data):
     try:
         if flask.session['logged_in']:
-            return flask.render_template(page)
+            if data:
+                return flask.render_template(page, data=data)
+            else:
+                return flask.render_template(page)
         else:
             return flask.render_template('index.html')
     except KeyError:
@@ -56,15 +64,15 @@ def login():
         flask.session['access'] = user.auth
         flask.session['logged_in'] = True
         if flask.session['access'] == 0:
-            return check_session('su_home.html')
+            return check_session('su_home.html', None)
         elif flask.session['access'] == 1:
-            return check_session('admin_home.html')
+            return check_session('admin_home.html', None)
         elif flask.session['access'] == 2:
-            return check_session('advisor_home.html')
+            return check_session('advisor_home.html', None)
         elif flask.session['access'] == 3:
-            return check_session('student_home.html')
+            return check_session('student_home.html', None)
         elif flask.session['access'] == 4:
-            return check_session('parent_home.html')
+            return check_session('parent_home.html', None)
         else:
             # no access to page
             return flask.render_template('account_inactive.html')
@@ -141,7 +149,7 @@ def register():
 @app.route('/forms')
 def forms():
     if flask.session['access'] <= 2:
-        return check_session('forms.html')
+        return check_session('forms.html', None)
     else:
         return flask.render_template('restricted_message.html')
 
@@ -149,7 +157,7 @@ def forms():
 @app.route('/new_student_form')
 def new_student_form():
     if flask.session['access'] <= 2:
-        return check_session('new_student_form.html')
+        return check_session('new_student_form.html', None)
     else:
         return flask.render_template('restricted_message.html')
 
@@ -157,7 +165,7 @@ def new_student_form():
 @app.route('/student_status_change')
 def student_status_change():
     if flask.session['access'] <= 2:
-        return check_session('student_status_change.html')
+        return check_session('student_status_change.html', None)
     else:
         return flask.render_template('restricted_message.html')
 
@@ -165,7 +173,11 @@ def student_status_change():
 @app.route('/students')
 def students():
     if flask.session['access'] <= 2:
-        return check_session('students.html')
+        con = mysql.connect()
+        cur = con.cursor()
+        cur.execute('SELECT * FROM admins')
+        data = cur.fetchall()
+        return check_session('students.html', data)
     else:
         return flask.render_template('restricted_message.html')
 
