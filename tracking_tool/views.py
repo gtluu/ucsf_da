@@ -44,17 +44,30 @@ def login_page():
     return flask.render_template('index.html')
 
 
-@app.route('/loginnewuser', methods=['POST'])
+@app.route('/home', methods=['POST'])
 def login():
     form = flask.request.form.to_dict()
 
     flask.session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=5)
     user = User(form['username'], form['password'])
+
     if user.authenticate():
         flask.session['access'] = user.auth
         flask.session['logged_in'] = True
-        return flask.render_template('advisor_home.html')
+        if flask.session['access'] == 0:
+            return check_session('su_home.html')
+        elif flask.session['access'] == 1:
+            return check_session('admin_home.html')
+        elif flask.session['access'] == 2:
+            return check_session('advisor_home.html')
+        elif flask.session['access'] == 3:
+            return check_session('student_home.html')
+        elif flask.session['access'] == 4:
+            return check_session('parent_home.html')
+        else:
+            # no access to page
+            return flask.render_template('account_inactive.html')
     else:
         return flask.render_template('index.html')
 
@@ -123,23 +136,6 @@ def register():
     con.commit()
     cur.close()
     return flask.render_template('registration_complete.html')
-
-
-@app.route('/home')
-def home():
-    if flask.session['access'] == 0:
-        return check_session('su_home.html')
-    elif flask.session['access'] == 1:
-        return check_session('admin_home.html')
-    elif flask.session['access'] == 2:
-        return check_session('advisor_home.html')
-    elif flask.session['access'] == 3:
-        return check_session('student_home.html')
-    elif flask.session['access'] == 4:
-        return check_session('parent_home.html')
-    else:
-        # no access to page
-        return flask.render_template('restricted_message.html')
 
 
 @app.route('/forms')
