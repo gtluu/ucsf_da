@@ -14,14 +14,6 @@ label {
     padding: 3px 3px 3px 3px;
     margin: 3px;
 }
-#intervention_tutoring_label, #plan_goals_label, #arrange_meeting_label {
-    width: 78%;
-    font-size: 14pt;
-    border-radius: 3px;
-    padding: 3px 3px 3px 3px;
-    margin: 3px;
-    display: inline-block;
-}
 input {
     width: 80%;
     font-size: 14pt;
@@ -30,22 +22,7 @@ input {
     padding: 3px 3px 3px 3px;
     margin: 3px;
 }
-#intervention_tutoring, #plan_goals, #arrange_meeting {
-    width: 2%;
-    font-size: 14pt;
-    background-color: rgb(245,245,245);
-    border-radius: 3px;
-    padding: 3px 3px 3px 3px;
-    margin: 3px;
-}
 select {
-    width: 80%;
-    font-size: 14pt;
-    border-radius: 3px;
-    padding: 3px 3px 3px 3px;
-    margin: 3px;
-}
-textarea {
     width: 80%;
     font-size: 14pt;
     border-radius: 3px;

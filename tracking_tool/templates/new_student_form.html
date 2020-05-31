@@ -2,7 +2,6 @@
     <head>
         <title>UCSF Doctor's Academy - Login</title>
         <link href="static/css/new_student_form.css" type="text/css" rel="stylesheet"/>
-        <link href="static/css/forms_sidebar.css" type="text/css" rel="stylesheet"/>
         <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
@@ -17,11 +16,58 @@
                 </ul>
             </nav>
         </header>
-        <div id="sidebar">
-            <ul>
-                <li><a href="/new_student_form">New Student Form</a></li>
-                <li><a href="/student_status_change">Student Status Change Form</a></li>
-            </ul>
-        </div>
+        <article>
+            <p style="font-size:24pt">New Student Form</p>
+            <form>
+                <label for="student_id">Student ID Number</label><br>
+                <input type="text" id="student_id" name="student_id" placeholder="Student ID Number" required><br><br>
+                <label for="first_name">First Name</label><br>
+                <input type="text" id="first_name" name="first_name" placeholder="First Name" required><br><br>
+                <label for="middle_name">Middle Name</label><br>
+                <input type="text" id="middle_name" name="middle_name" placeholder="Middle Name"><br><br>
+                <label for="last_name">Last Name</label><br>
+                <input type="text" id="last_name" name="last_name" placeholder="Last Name" required><br><br>
+                <label for="email">Email</label><br>
+                <input type="text" id="email" name="email" placeholder="Email"><br><br>
+                <label for="phone_number">Phone Number</label><br>
+                <input type="text" id="phone_number" name="phone_number" placeholder="Phone Number"><br><br>
+                <label for="school">School</label><br>
+                <select id="school" name="school" required>
+                    <option value="School 1">School 1</option>
+                    <option value="School 2">School 2</option>
+                    <option value="School 3">School 3</option>
+                </select><br><br>
+                <label for="grade">Grade</label><br>
+                <select id="grade" name="grade" required>
+                    <option value="Freshman">Freshman</option>
+                    <option value="Sophomore">Sophomore</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
+                </select><br><br>
+                <label for="expected_grad">Expected Graduation Year</label><br>
+                <input type="text" id="expected_grad" name="expected_grad" placeholder="Expected Graduation Year" required><br><br>
+                <label for="program_status">Program Status</label><br>
+                <select id="program_status" name="program_status" required>
+                    <option value="enrolled">Enrolled</option>
+                    <option value="graduated">Graduated</option>
+                    <option value="expelled">Expelled</option>
+                </select><br><br>
+                <label for="fmp_id">Filemaker Pro ID</label><br>
+                <input type="text" id="fmp_id" name="fmp_id" placeholder="Filemaker Pro ID"><br><br>
+                <label for="advisor_id">Advisor ID</label><br>
+                <input type="text" id="advisor_id" name="advisor_id" placeholder="Advisor ID" required><br><br>
+                <label for="parent_first_name">Parent First Name</label><br>
+                <input type="text" id="parent_first_name" name="parent_first_name" placeholder="Parent First Name" required><br><br>
+                <label for="parent_middle_name">Parent Middle Name</label><br>
+                <input type="text" id="parent_middle_name" name="parent_middle_name" placeholder="Parent Middle Name"><br><br>
+                <label for="parent_last_name">Parent Last Name</label><br>
+                <input type="text" id="parent_last_name" name="parent_last_name" placeholder="Parent Last Name" required><br><br>
+                <label for="parent_email">Parent Email</label><br>
+                <input type="text" id="parent_email" name="parent_email" placeholder="Parent Email"><br><br>
+                <label for="parent_phone_number">Parent Phone Number</label><br>
+                <input type="text" id="parent_phone_number" name="parent_phone_number" placeholder="Parent Phone Number"><br><br>
+                <button type="submit" id="submit">Submit</button>
+            </form>
+        </article>
     </body>
 </html>

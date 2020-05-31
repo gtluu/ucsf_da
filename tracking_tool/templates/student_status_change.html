@@ -2,7 +2,6 @@
     <head>
         <title>UCSF Doctor's Academy - Login</title>
         <link href="static/css/student_status_change.css" type="text/css" rel="stylesheet"/>
-        <link href="static/css/forms_sidebar.css" type="text/css" rel="stylesheet"/>
         <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
@@ -17,23 +16,33 @@
                 </ul>
             </nav>
         </header>
-        <div id="sidebar">
-            <ul>
-                <li><a href="/new_student_form">New Student Form</a></li>
-                <li><a href="/student_status_change">Student Status Change Form</a></li>
-            </ul>
-        </div>
         <article>
             <p style="font-size:24pt">Student Status Change Form</p>
             <form>
-                <label for="current_status">Current Status: </label>
-                <select name="current_status">
+                <label for="student_id">Student ID Number</label><br>
+                <input type="text" id="student_id" name="student_id" placeholder="Student ID Number" required><br><br>
+                <label for="current_status">Current Status: </label><br>
+                <select id="current_status" name="current_status" required>
                     <option value="intervention">Intervention</option>
                     <option value="probation">Probation</option>
                     <option value="excused">Excused</option>
                     <option value="withdrawn">Withdrawn</option>
                     <option value="moved">Moved</option>
-                </select>
+                </select><br><br>
+                <input type="checkbox" id="intervention_tutoring" name="intervention_tutoring">
+                <label for="intervention_tutoring" id="intervention_tutoring_label">Participate in academic intervention or tutorial sessions as available. This may or may not include seeking assistance from teachers.</label><br><br>
+                <label for="intervention_tutoring_commitment">Commitment to Tutorial or Assistance</label><br>
+                <textarea id="intervention_tutoring_commitment" name="intervention_tutoring_commitment" rows="5"></textarea><br><br>
+                <input type="checkbox" id="plan_goals" name="plan_goals">
+                <label for="plan_goals" id="plan_goals_label">Plan short- and long-term goals that are reasonable and achievable by the student.</label><br><br>
+                <label for="student_goals">Student Goals</label><br>
+                <textarea id="student_goals" name="student_goals" rows="5"></textarea><br><br>
+                <input type="checkbox" id="arrange_meeting" name="arrange_meeting">
+                <label for="arrange_meeting" id="arrange_meeting_label">Arrange a meeting with DA Administrator/Counselor. Check if necessary.</label><br>
+                <textarea id="arrange_meeting_text" name="arrange_meeting_text" rows="5"></textarea><br><br>
+                <label for="additional_notes">Additional Notes</label><br>
+                <textarea id="additional_notes" name="additional_notes" rows="5"></textarea><br><br>
+                <button type="submit" id="submit">Submit</button>
             </form>
         </article>
     </body>

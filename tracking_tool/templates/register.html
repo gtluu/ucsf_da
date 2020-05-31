@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>UCSF Doctor's Academy - Login</title>
+        <link href="static/css/register.css" type="text/css" rel="stylesheet"/>
+        <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+        <header>
+            <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
+                <img src="static/media/ucsffresno.png">
+            </a>
+        </header>
+        <form action="/registernewuser" method="post">
+            <input type="text" id="id" name="id" placeholder="UCSF DA ID"><br>
+            <input type="text" id="username" name="username" placeholder="Username"><br>
+            <input type="password" id="password" name="password" placeholder="Password"><br>
+            <input type="password" id="password_re" name="password_re" placeholder="Re-enter Password"><br><br>
+            <button type="submit" id="submit">Sign Up</button>
+        </form>
+    </body>
+</html>
