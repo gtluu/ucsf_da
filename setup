@@ -71,3 +71,4 @@ CREATE TABLE IF NOT EXISTS parents (
 );
 
 INSERT INTO users (id, authorization, ucsf_da_id, username, salt, password) VALUES (100000, 0, 912, 'bass', 'salt', 'pw');
+INSERT INTO admins (id, first_name, last_name) VALUES (912713, 'G', 'Bass');

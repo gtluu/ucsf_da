@@ -99,20 +99,20 @@ def register():
     # 0 == su, 1 == admin, 2 == advisor, 3 == student, 4 == parent, 5 == inactive
     cur.execute('SELECT id FROM admins')
     admin_id_list = cur.fetchall()
-    admin_id_list = [i[0] for i in admin_id_list]
-    cur.execute('SELECT id FROM admins')
+    admin_id_list = [int(i[0]) for i in admin_id_list]
+    cur.execute('SELECT id FROM advisors')
     advisor_id_list = cur.fetchall()
-    advisor_id_list = [i[0] for i in advisor_id_list]
-    cur.execute('SELECT id FROM admins')
+    advisor_id_list = [int(i[0]) for i in advisor_id_list]
+    cur.execute('SELECT id FROM students')
     student_id_list = cur.fetchall()
-    student_id_list = [i[0] for i in student_id_list]
-    cur.execute('SELECT id FROM admins')
+    student_id_list = [int(i[0]) for i in student_id_list]
+    cur.execute('SELECT id FROM parents')
     parent_id_list = cur.fetchall()
-    parent_id_list = [i[0] for i in parent_id_list]
-    is_admin = form['id'] in admin_id_list
-    is_advisor = form['id'] in advisor_id_list
-    is_student = form['id'] in student_id_list
-    is_parent = form['id'] in parent_id_list
+    parent_id_list = [int(i[0]) for i in parent_id_list]
+    is_admin = int(form['id']) in admin_id_list
+    is_advisor = int(form['id']) in advisor_id_list
+    is_student = int(form['id']) in student_id_list
+    is_parent = int(form['id']) in parent_id_list
     if is_admin and not is_advisor and not is_student and not is_parent:
         auth = 1
     elif is_advisor and not is_admin and not is_student and not is_parent:
