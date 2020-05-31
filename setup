@@ -1,0 +1,73 @@
+CREATE DATABASE IF NOT EXISTS ucsfda;
+
+USE ucsfda;
+
+CREATE TABLE IF NOT EXISTS users (
+    id int(6) NOT NULL UNIQUE,
+    authorization int(1),
+    ucsf_da_id int(64) UNIQUE,
+    username varchar(32) NOT NULL UNIQUE,
+    salt varchar(255) NOT NULL,
+    password varchar(255) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS admins (
+    id int(64) NOT NULL UNIQUE,
+    first_name varchar(64),
+    middle_name varchar(64),
+    last_name varchar(64),
+    email varchar(128) UNIQUE,
+    cell_phone int(10) UNIQUE,
+    work_phone int(10) UNIQUE,
+    home_phone int(10) UNIQUE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS advisors (
+    id int(64) NOT NULL UNIQUE,
+    first_name varchar(64),
+    middle_name varchar(64),
+    last_name varchar(64),
+    email varchar(128) UNIQUE,
+    cell_phone int(10) UNIQUE,
+    work_phone int(10) UNIQUE,
+    home_phone int(10) UNIQUE,
+    school varchar(64),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS students (
+    id int(64) NOT NULL UNIQUE,
+    first_name varchar(64),
+    middle_name varchar(64),
+    last_name varchar(64),
+    email varchar(128) UNIQUE,
+    cell_phone int(10) UNIQUE,
+    work_phone int(10) UNIQUE,
+    home_phone int(10) UNIQUE,
+    school varchar(64),
+    grade varchar(16),
+    expected_grad int(4),
+    gpa double(3, 2),
+    program_status varchar(16),
+    fmp_id int(64) UNIQUE,
+    parent_id int(64),
+    advisor_id int(64),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS parents (
+    id int(64) NOT NULL UNIQUE,
+    first_name varchar(64),
+    middle_name varchar(64),
+    last_name varchar(64),
+    email varchar(128) UNIQUE,
+    cell_phone int(10) UNIQUE,
+    work_phone int(10) UNIQUE,
+    home_phone int(10) UNIQUE,
+    student_id int(64),
+    PRIMARY KEY (id)
+);
+
+INSERT INTO users (id, authorization, ucsf_da_id, username, salt, password) VALUES (100000, 0, 912, 'bass', 'salt', 'pw');
