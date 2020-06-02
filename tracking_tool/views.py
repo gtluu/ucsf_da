@@ -1,8 +1,120 @@
-import flask
-from tracking_tool import *
+from flask import render_template, url_for, flash, redirect, request, session
+from tracking_tool import app, db, bcrypt
 from flaskext.mysql import MySQL
-import flask_login
+from flask_login import login_user, current_user, logout_user, login_required
+from tracking_tool.models import User
+from tracking_tool.forms import RegistrationForm, LoginForm
 
+
+def check_session(page, data):
+    try:
+        if session['logged_in']:
+            if data:
+                return render_template(page, data=data)
+            else:
+                return render_template(page)
+        else:
+            return render_template('index.html')
+    except KeyError:
+        return render_template('index.html')
+
+@app.route('/')
+def main():
+    return render_template('index.html')
+
+
+@app.route('/login')
+def login_page():
+    return render_template('index.html')
+
+
+@app.route('/home', methods=['POST'])
+def login():
+    form = request.form.to_dict()
+
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=5)
+    user = User(form['username'], form['password'])
+
+    if user.authenticate():
+        session['access'] = user.auth
+        session['logged_in'] = True
+        if session['access'] == 0:
+            return check_session('su_home.html', None)
+        elif session['access'] == 1:
+            return check_session('admin_home.html', None)
+        elif session['access'] == 2:
+            return check_session('advisor_home.html', None)
+        elif session['access'] == 3:
+            return check_session('student_home.html', None)
+        elif session['access'] == 4:
+            return check_session('parent_home.html', None)
+        else:
+            # no access to page
+            return render_template('account_inactive.html')
+    else:
+        return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    # want to uncomment below code eventually, things just got buggy
+    #if current_user.is_authenticated:
+        #return redirect(url_for('login'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, authorization=form.authorization.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        return render_template('registration_complete.html')
+    return render_template('register.html', title='Register', form=form)
+
+@app.route('/forms')
+def forms():
+    if session['access'] <= 2:
+        return check_session('forms.html', None)
+    else:
+        return render_template('restricted_message.html')
+
+
+@app.route('/new_student_form')
+def new_student_form():
+    if session['access'] <= 2:
+        return check_session('new_student_form.html', None)
+    else:
+        return render_template('restricted_message.html')
+
+
+@app.route('/student_status_change')
+def student_status_change():
+    if session['access'] <= 2:
+        return check_session('student_status_change.html', None)
+    else:
+        return render_template('restricted_message.html')
+
+
+@app.route('/students')
+def students():
+    if session['access'] <= 2:
+        con = mysql.connect()
+        cur = con.cursor()
+        cur.execute('SELECT * FROM admins')
+        data = cur.fetchall()
+        return check_session('students.html', data)
+    else:
+        return render_template('restricted_message.html')
+
+
+@app.route('/logout')
+def logout():
+    session['logged_in'] = False
+    session.pop('username', None)
+    return render_template('index.html')
+
+'''
+Code for views.py before changes:
+
+# making User table
 
 class User():
     def __init__(self, username, password):
@@ -28,62 +140,11 @@ class User():
             cur.close()
             return False
 
-
-def check_session(page, data):
-    try:
-        if flask.session['logged_in']:
-            if data:
-                return flask.render_template(page, data=data)
-            else:
-                return flask.render_template(page)
-        else:
-            return flask.render_template('index.html')
-    except KeyError:
-        return flask.render_template('index.html')
-
-
-@app.route('/')
-def main():
-    return flask.render_template('index.html')
-
-
-@app.route('/login')
-def login_page():
-    return flask.render_template('index.html')
-
-
-@app.route('/home', methods=['POST'])
-def login():
-    form = flask.request.form.to_dict()
-
-    flask.session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=5)
-    user = User(form['username'], form['password'])
-
-    if user.authenticate():
-        flask.session['access'] = user.auth
-        flask.session['logged_in'] = True
-        if flask.session['access'] == 0:
-            return check_session('su_home.html', None)
-        elif flask.session['access'] == 1:
-            return check_session('admin_home.html', None)
-        elif flask.session['access'] == 2:
-            return check_session('advisor_home.html', None)
-        elif flask.session['access'] == 3:
-            return check_session('student_home.html', None)
-        elif flask.session['access'] == 4:
-            return check_session('parent_home.html', None)
-        else:
-            # no access to page
-            return flask.render_template('account_inactive.html')
-    else:
-        return flask.render_template('index.html')
-
+# registration pages 
 
 @app.route('/register')
 def registration_page():
     return flask.render_template('register.html')
-
 
 @app.route('/registernewuser', methods=['POST'])
 def register():
@@ -144,46 +205,4 @@ def register():
     con.commit()
     cur.close()
     return flask.render_template('registration_complete.html')
-
-
-@app.route('/forms')
-def forms():
-    if flask.session['access'] <= 2:
-        return check_session('forms.html', None)
-    else:
-        return flask.render_template('restricted_message.html')
-
-
-@app.route('/new_student_form')
-def new_student_form():
-    if flask.session['access'] <= 2:
-        return check_session('new_student_form.html', None)
-    else:
-        return flask.render_template('restricted_message.html')
-
-
-@app.route('/student_status_change')
-def student_status_change():
-    if flask.session['access'] <= 2:
-        return check_session('student_status_change.html', None)
-    else:
-        return flask.render_template('restricted_message.html')
-
-
-@app.route('/students')
-def students():
-    if flask.session['access'] <= 2:
-        con = mysql.connect()
-        cur = con.cursor()
-        cur.execute('SELECT * FROM admins')
-        data = cur.fetchall()
-        return check_session('students.html', data)
-    else:
-        return flask.render_template('restricted_message.html')
-
-
-@app.route('/logout')
-def logout():
-    flask.session['logged_in'] = False
-    flask.session.pop('username', None)
-    return flask.render_template('index.html')
+'''
