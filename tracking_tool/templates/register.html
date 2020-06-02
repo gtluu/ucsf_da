@@ -1,26 +1,72 @@
-<html>
-    <head>
-        <title>UCSF Doctor's Academy - Login</title>
-        <link href="static/css/register.css" type="text/css" rel="stylesheet"/>
-        <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
-                        <img src="static/media/ucsffresno.png">
-                    </a>
-                    <li><a href="/login">Login</a></li>
-                </ul>
-            </nav>
-        </header>
-        <form action="/registernewuser" method="post">
-            <input type="text" id="id" name="id" placeholder="UCSF DA ID"><br>
-            <input type="text" id="username" name="username" placeholder="Username"><br>
-            <input type="password" id="password" name="password" placeholder="Password"><br>
-            <input type="password" id="password_re" name="password_re" placeholder="Re-enter Password"><br><br>
-            <button type="submit" id="submit">Sign Up</button>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action = "">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Create New User</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+
+                    {% if form.username.errors %}
+                        {{ form.username.label(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.authorization.label(class="form-control-label") }}
+                    {% if form.authorization.errors %}
+                        {{ form.authorization.label(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.authorization.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ form.authorization(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password.label(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password.label(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ form.confirm_password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
         </form>
-    </body>
-</html>
+    </div>
+    <div class="'border-top pt-3">
+      <small class="text-muted">
+      Already Have An Account? <a class="ml-2" href="{{ url_for('login_page') }}">Sign In</a>
+      </small>
+    </div>
+{% endblock content %}
