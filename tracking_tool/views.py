@@ -54,15 +54,7 @@ def login_page():
 
 @app.route('/home', methods=['POST'])
 def login():
-    form = flask.request.form.to_dict()
-
-    flask.session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=5)
-    user = User(form['username'], form['password'])
-
-    if user.authenticate():
-        flask.session['access'] = user.auth
-        flask.session['logged_in'] = True
+    def display_home():
         if flask.session['access'] == 0:
             return check_session('su_home.html', None)
         elif flask.session['access'] == 1:
@@ -76,8 +68,22 @@ def login():
         else:
             # no access to page
             return flask.render_template('account_inactive.html')
+
+    if not flask.session['logged_in']:
+        form = flask.request.form.to_dict()
+
+        flask.session.permanent = True
+        app.permanent_session_lifetime = timedelta(minutes=5)
+        user = User(form['username'], form['password'])
+
+        if user.authenticate():
+            flask.session['access'] = user.auth
+            flask.session['logged_in'] = True
+            return display_home()
+        else:
+            return flask.render_template('index.html')
     else:
-        return flask.render_template('index.html')
+        return display_home()
 
 
 @app.route('/register')
