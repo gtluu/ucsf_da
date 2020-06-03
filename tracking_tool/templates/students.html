@@ -18,7 +18,20 @@
         </header>
         <article>
             <table class="centerTable">
-            {% for item in data %}
+                <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
+                    <td>Student ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>School</td>
+                    <td>Grade</td>
+                    <td>Exp Grad</td>
+                    <td>GPA</td>
+                    <td>Student Status</td>
+                    <td>FMP ID</td>
+                    <td>Parent ID(s)</td>
+                    <td>Advisor ID</td>
+                </tr>
+                {% for item in data %}
                 <tr>
                     <td>{{item[0]}}</td>
                     <td>{{item[1]}}</td>
@@ -32,7 +45,7 @@
                     <td>{{item[14]}}, {{item[14]}}</td>
                     <td>{{item[16]}}</td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
             </table>
         </article>
     </body>

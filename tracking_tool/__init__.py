@@ -14,8 +14,7 @@ mysql = MySQL()
 mysql.init_app(app)
 
 app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = input('MySQL Password: ')
-app.config['MYSQL_DATABASE_PASSWORD'] = '00krusty*'
+app.config['MYSQL_DATABASE_PASSWORD'] = input('MySQL Password: ')
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_DB'] = 'ucsfda'
 
