@@ -1,20 +1,21 @@
-<html>
-    <head>
-        <title>UCSF Doctor's Academy - Login</title>
-        <link href="static/css/advisor_home.css" type="text/css" rel="stylesheet"/>
-        <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <img src="static/media/ucsffresno.png">
-                    <li><a href="/logout">Logout</a></li>
-                    <li><a href="/students">Students</a></li>
-                    <li><a href="/forms">Forms</a></li>
-                    <li><a href="/home" class="current">Home</a></li>
-                </ul>
-            </nav>
-        </header>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+    <html>
+        <head>
+            <title>UCSF Doctor's Academy - Login</title>
+            <link href="static/css/advisor_home.css" rel="stylesheet" type="text/css"/>
+            <link href="static/css/header.css" rel="stylesheet" type="text/css"/>
+        </head>
+        <body>
+            <header>
+                <nav>
+                    <ul>
+                        <img src="static/media/ucsffresno.png">
+                        <li><a href="/students">Students</a></li>
+                        <li><a href="/forms">Forms</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </body>
+    </html>
+{% endblock content %}
