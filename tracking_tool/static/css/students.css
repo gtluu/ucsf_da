@@ -1,0 +1,23 @@
+body {
+    font-family: "Arial";
+}
+article {
+    width: 100%;
+    position: absolute;
+    top: 150px;
+    text-align: center;
+}
+table {
+    font-size: 12pt;
+    text-align: left;
+}
+.centerTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+tr, td {
+    padding: 10px;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
