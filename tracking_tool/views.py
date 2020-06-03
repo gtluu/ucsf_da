@@ -52,7 +52,7 @@ def login_page():
     return flask.render_template('index.html')
 
 
-@app.route('/home', methods=['POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def login():
     def display_home():
         if flask.session['access'] == 0:
@@ -181,7 +181,7 @@ def students():
     if flask.session['access'] <= 2:
         con = mysql.connect()
         cur = con.cursor()
-        cur.execute('SELECT * FROM admins')
+        cur.execute('SELECT * FROM students')
         data = cur.fetchall()
         return check_session('students.html', data)
     else:

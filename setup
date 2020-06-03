@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS admins (
     middle_name varchar(64),
     last_name varchar(64),
     email varchar(128) UNIQUE,
-    cell_phone int(10) UNIQUE,
-    work_phone int(10) UNIQUE,
-    home_phone int(10) UNIQUE,
+    cell_phone varchar(10) UNIQUE,
+    work_phone varchar(10) UNIQUE,
+    home_phone varchar(10) UNIQUE,
     PRIMARY KEY (id)
 );
 
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS advisors (
     middle_name varchar(64),
     last_name varchar(64),
     email varchar(128) UNIQUE,
-    cell_phone int(10) UNIQUE,
-    work_phone int(10) UNIQUE,
-    home_phone int(10) UNIQUE,
+    cell_phone varchar(10) UNIQUE,
+    work_phone varchar(10) UNIQUE,
+    home_phone varchar(10) UNIQUE,
     school varchar(64),
     PRIMARY KEY (id)
 );
@@ -43,16 +43,17 @@ CREATE TABLE IF NOT EXISTS students (
     middle_name varchar(64),
     last_name varchar(64),
     email varchar(128) UNIQUE,
-    cell_phone int(10) UNIQUE,
-    work_phone int(10) UNIQUE,
-    home_phone int(10) UNIQUE,
+    cell_phone varchar(10) UNIQUE,
+    work_phone varchar(10) UNIQUE,
+    home_phone varchar(10) UNIQUE,
     school varchar(64),
     grade varchar(16),
     expected_grad int(4),
     gpa double(3, 2),
     program_status varchar(16),
     fmp_id int(64) UNIQUE,
-    parent_id int(64),
+    parent_1_id int(64),
+    parent_2_id int(64),
     advisor_id int(64),
     PRIMARY KEY (id)
 );
@@ -63,9 +64,9 @@ CREATE TABLE IF NOT EXISTS parents (
     middle_name varchar(64),
     last_name varchar(64),
     email varchar(128) UNIQUE,
-    cell_phone int(10) UNIQUE,
-    work_phone int(10) UNIQUE,
-    home_phone int(10) UNIQUE,
+    cell_phone varchar(10) UNIQUE,
+    work_phone varchar(10) UNIQUE,
+    home_phone varchar(10) UNIQUE,
     student_id int(64),
     PRIMARY KEY (id)
 );
