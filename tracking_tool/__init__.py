@@ -1,9 +1,5 @@
 from flask import Flask
 from flaskext.mysql import MySQL
-from datetime import timedelta
-import random
-import string
-import hashlib
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager

@@ -4,6 +4,7 @@ from flaskext.mysql import MySQL
 from flask_login import login_user, current_user, logout_user, login_required
 from tracking_tool.models import User
 from tracking_tool.forms import RegistrationForm, LoginForm
+from datetime import timedelta
 
 
 def check_session(page, data):
