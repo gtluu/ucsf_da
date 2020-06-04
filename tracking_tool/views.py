@@ -6,6 +6,18 @@ from tracking_tool.models import User
 from tracking_tool.forms import RegistrationForm, LoginForm
 from datetime import timedelta
 
+def check_session(page, data):
+    try:
+        if session['logged_in']:
+            if data:
+                return render_template(page, data=data)
+            else:
+                return render_template(page)
+        else:
+            return render_template('login.html', title='Login', form=form)
+    except KeyError:
+        return render_template('login.html', title='Login', form=form)
+
 @app.route("/")
 @app.route("/home")
 def home():
