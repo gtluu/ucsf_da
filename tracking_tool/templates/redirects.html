@@ -1,0 +1,55 @@
+<html>
+    {% if data == 'account_inactive" %}
+    <head>
+        <title>Redirecting...</title>
+        <link href="static/css/redirect_pages.css" type="text/css" rel="stylesheet"/>
+        <script>
+            setTimeout(function(){
+                window.location.href = '/login';
+            }, 3000);
+        </script>
+    </head>
+    <body>
+        <h1>This account is no longer active. You will be redirected to the login page shortly...</h1>
+    </body>
+    {% elif data == 'registration_complete" %}
+    <head>
+        <title>Redirecting...</title>
+        <link href="static/css/redirect_pages.css" type="text/css" rel="stylesheet"/>
+        <script>
+            setTimeout(function(){
+                window.location.href = '/login';
+            }, 3000);
+        </script>
+    </head>
+    <body>
+        <h1>You have been registered. You will be redirected to the login page shortly...</h1>
+    </body>
+    {% elif data == 'registration_password_mismatch" %}
+    <head>
+        <title>Redirecting...</title>
+        <link href="static/css/redirect_pages.css" type="text/css" rel="stylesheet"/>
+        <script>
+            setTimeout(function(){
+                window.location.href = '/register';
+            }, 3000);
+        </script>
+    </head>
+    <body>
+        <h1>Password does not match. You will be redirected to the login page shortly...</h1>
+    </body>
+    {% elif data == 'restricted" %}
+    <head>
+        <title>Redirecting...</title>
+        <link href="static/css/redirect_pages.css" type="text/css" rel="stylesheet"/>
+        <script>
+            setTimeout(function(){
+                window.location.href = '/login';
+            }, 3000);
+        </script>
+    </head>
+    <body>
+        <h1>You do not have access to this page. You will be redirected to the login page shortly...</h1>
+    </body>
+    {% endif %}
+</html>

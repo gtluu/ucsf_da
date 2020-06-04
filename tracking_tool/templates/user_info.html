@@ -1,0 +1,143 @@
+{% extends "user_header.html" %}
+
+{% block css %}
+<link href="static/css/home.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+{% if data == "admin" %}
+<article>
+    <p style="font-size:16pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p></p>
+    <br>
+    <p>Name: </p>
+    <p></p>
+    <br>
+    <p>Email: </p>
+    <p></p>
+    <br>
+    <p>Cell Phone: </p>
+    <p></p>
+    <br>
+    <p>Work Phone: </p>
+    <p></p>
+    <br>
+    <p>Home Phone: </p>
+    <p></p>
+    <br>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+<article>
+    <p style="font-size:16pt">Forms</p>
+    <ul>
+        <li><a href="/new_advisor_form">Add New Advisor</a></li>
+        <li><a href="/update_advisor_form">Update Advisor</a></li>
+        <li><a href="/new_student_form">Add New Student</a></li>
+        <li><a href="/update_student_form">Update Student</a></li>
+        <li><a href="/student_status_change">Student Status Change Form</a></li>
+    </ul>
+</article>
+{% elif data == "advisor" %}
+<article>
+    <p style="font-size:16pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p></p>
+    <br>
+    <p>Name: </p>
+    <p></p>
+    <br>
+    <p>Email: </p>
+    <p></p>
+    <br>
+    <p>Cell Phone: </p>
+    <p></p>
+    <br>
+    <p>Work Phone: </p>
+    <p></p>
+    <br>
+    <p>Home Phone: </p>
+    <p></p>
+    <br>
+    <p>School: </p>
+    <p></p>
+    <br>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+<article>
+    <p style="font-size:16pt">Forms</p>
+    <ul>
+        <li><a href="/new_student_form">Add New Student</a></li>
+        <li><a href="/update_student_form">Update Student</a></li>
+        <li><a href="/student_status_change">Student Status Change Form</a></li>
+    </ul>
+</article>
+{% elif  data == "student" %}
+<article>
+    <p style="font-size:16pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p></p>
+    <br>
+    <p>Name: </p>
+    <p></p>
+    <br>
+    <p>Email: </p>
+    <p></p>
+    <br>
+    <p>Cell Phone: </p>
+    <p></p>
+    <br>
+    <p>Work Phone: </p>
+    <p></p>
+    <br>
+    <p>Home Phone: </p>
+    <p></p>
+    <br>
+    <p>School: </p>
+    <p></p>
+    <br>
+    <p>Grade: </p>
+    <p></p>
+    <br>
+    <p>Expected Graduation: </p>
+    <p></p>
+    <br>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+{% elif data == "parent" %}
+<article>
+    <p style="font-size:16pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p></p>
+    <br>
+    <p>Name: </p>
+    <p></p>
+    <br>
+    <p>Email: </p>
+    <p></p>
+    <br>
+    <p>Cell Phone: </p>
+    <p></p>
+    <br>
+    <p>Work Phone: </p>
+    <p></p>
+    <br>
+    <p>Home Phone: </p>
+    <p></p>
+    <br>
+    <p>Child: </p>
+    <p></p>
+    <br>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "user.html" %}
+
+{% block header %}
+{% if data == "admin" %}
+<ul>
+    <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
+                        <img src="static/media/ucsffresno.png">
+    </a>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/students">Students</a></li>
+    <li><a href="/advisors">Advisors</a></li>
+    <li><a href="/home">Home</a></li>
+</ul>
+{% elif data == "advisor" %}
+<ul>
+    <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
+                        <img src="static/media/ucsffresno.png">
+    </a>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/students">Students</a></li>
+    <li><a href="/home">Home</a></li>
+</ul>
+{% elif  data == "student" %}
+<ul>
+    <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
+                        <img src="static/media/ucsffresno.png">
+    </a>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/reports">Reports</a></li>
+    <li><a href="/home">Home</a></li>
+</ul>
+{% elif data == "parent" %}
+<ul>
+    <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
+                        <img src="static/media/ucsffresno.png">
+    </a>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/reports">Reports</a></li>
+    <li><a href="/home">Home</a></li>
+</ul>
+{% endif %}
+{% endblock %}

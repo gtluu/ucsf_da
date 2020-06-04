@@ -55,16 +55,14 @@ def login_page():
 @app.route('/home', methods=['GET', 'POST'])
 def login():
     def display_home():
-        if flask.session['access'] == 0:
-            return check_session('su_home.html', None)
-        elif flask.session['access'] == 1:
-            return check_session('admin_home.html', None)
+        if flask.session['access'] == 1:
+            return check_session('user_info.html', data='admin')
         elif flask.session['access'] == 2:
-            return check_session('advisor_home.html', None)
+            return check_session('user.html', data='advisor')
         elif flask.session['access'] == 3:
-            return check_session('student_home.html', None)
+            return check_session('user.html', data='student')
         elif flask.session['access'] == 4:
-            return check_session('parent_home.html', None)
+            return check_session('user.html', data='parent')
         else:
             # no access to page
             return flask.render_template('account_inactive.html')
