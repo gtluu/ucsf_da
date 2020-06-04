@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from tracking_tool.models import User
 
@@ -9,6 +9,7 @@ class RegistrationForm(FlaskForm):
     authorization_levels = [('0', 'supervisor'), ('1', 'administrator'), ('2', 'advisor'), ('3', 'student'),
                             ('4', 'parent')]
     authorization = SelectField('Select Type of User', choices=authorization_levels)
+    ucsf_da_id = IntegerField("Enter UCSF Doctor's Academy ID", validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Create New User')
