@@ -33,6 +33,8 @@ def login():
             else:
                 # no access to page
                 return render_template('account_inactive.html')
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -43,10 +45,11 @@ def register():
     # tells us whether form validated
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, authorization=form.authorization.data, password=hashed_password)
+        user = User(username=form.username.data, authorization=form.authorization.data, ucsf_da_id=form.ucsf_da_id.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        return render_template('registration_complete.html')
+        flash(f'Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/forms')
@@ -89,4 +92,5 @@ def students():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
 
