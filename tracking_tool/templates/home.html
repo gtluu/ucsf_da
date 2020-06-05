@@ -8,12 +8,12 @@
 {% block content %}
 {% if user.authorization == 1 %}
 <article>
-    <p style="font-size:20pt">Hello,</p>
-    <p>UCSF ID: </p>
-    <p>Email: </p>
-    <p>Cell Phone: </p>
-    <p>Work Phone: </p>
-    <p>Home Phone: </p>
+    <p style="font-size:20pt">Hello, {{ user_info.first_name }} {{ user_info.last_name }}</p>
+    <p>UCSF ID: {{ user_info.id }}</p>
+    <p>Email: {{ user_info.email }}</p>
+    <p>Cell Phone: {{ user_info.cell_phone }}</p>
+    <p>Work Phone: {{ user_info.work_phone }}</p>
+    <p>Home Phone: {{ user_info.home_phone }}</p>
     <form action="/edit_information">
         <button type="button">Edit Information</button>
     </form>
@@ -32,13 +32,13 @@
 </article>
 {% elif user.authorization == 2 %}
 <article>
-    <p style="font-size:20pt">Hello,</p>
-    <p>UCSF ID: </p>
-    <p>Email: </p>
-    <p>Cell Phone: </p>
-    <p>Work Phone: </p>
-    <p>Home Phone: </p>
-    <p>School: </p>
+    <p style="font-size:20pt">Hello, {{ user_info.first_name }} {{ user_info.last_name }}</p>
+    <p>UCSF ID: {{ user_info.id }}</p>
+    <p>Email: {{ user_info.email }}</p>
+    <p>Cell Phone: {{ user_info.cell_phone }}</p>
+    <p>Work Phone: {{ user_info.work_phone }}</p>
+    <p>Home Phone: {{ user_info.home_phone }}</p>
+    <p>School: {{ user_info.school }}</p>
     <form action="/edit_information">
         <button type="button">Edit Information</button>
     </form>
@@ -54,28 +54,27 @@
 </article>
 {% elif user.authorization == 3 %}
 <article>
-    <p style="font-size:20pt">Hello,</p>
-    <p>UCSF ID: </p>
-    <p>Email: </p>
-    <p>Cell Phone: </p>
-    <p>Work Phone: </p>
-    <p>Home Phone: </p>
-    <p>School: </p>
-    <p>Grade: </p>
-    <p>Expected Graduation: </p>
+    <p style="font-size:20pt">Hello, {{ user_info.first_name }} {{ user_info.last_name }}</p>
+    <p>UCSF ID: {{ user_info.id }}</p>
+    <p>Email: {{ user_info.email }}</p>
+    <p>Cell Phone: {{ user_info.cell_phone }}</p>
+    <p>Work Phone: {{ user_info.work_phone }}</p>
+    <p>Home Phone: {{ user_info.home_phone }}</p>
+    <p>School: {{ user_info.school }}</p>
+    <p>Grade: {{ user_info.grade }}</p>
+    <p>Expected Graduation: {{ user_info.expected_grad }}</p>
     <form action="/edit_information">
         <button type="button">Edit Information</button>
     </form>
 </article>
 {% elif user.authorization == 4 %}
 <article>
-    <p style="font-size:20pt">Hello,</p>
-    <p>UCSF ID: </p>
-    <p>Email: </p>
-    <p>Cell Phone: </p>
-    <p>Work Phone: </p>
-    <p>Home Phone: </p>
-    <p>Child: </p>
+    <p style="font-size:20pt">Hello, {{ user_info.first_name }} {{ user_info.last_name }}</p>
+    <p>UCSF ID: {{ user_info.id }}</p>
+    <p>Email: {{ user_info.email }}</p>
+    <p>Cell Phone: {{ user_info.cell_phone }}</p>
+    <p>Work Phone: {{ user_info.work_phone }}</p>
+    <p>Home Phone: {{ user_info.home_phone }}</p>
     <form action="/edit_information">
         <button type="button">Edit Information</button>
     </form>

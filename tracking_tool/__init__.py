@@ -1,5 +1,4 @@
 from flask import Flask
-from flaskext.mysql import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -15,18 +14,5 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
 
-'''
-app = flask.Flask(__name__)
-app.secret_key = 'fuzzybuddy'
-
-mysql = MySQL()
-mysql.init_app(app)
-
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = input('MySQL Password: ')
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_DB'] = 'ucsfda'
-
-'''
 import tracking_tool.views
 

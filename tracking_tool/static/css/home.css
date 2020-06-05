@@ -6,7 +6,6 @@ article {
     position: relative;
     top: 100px;
     margin: auto;
-    z-index: -1;
 }
 article p {
     font-size: 16pt;
@@ -20,4 +19,14 @@ article ul li {
 }
 article ul li a {
     text-decoration: none;
+}
+button {
+    width: 200px;
+    font-family: "Arial";
+    font-size: 12pt;
+    background-color: rgb(245,245,245);
+    border-radius: 3px;
+    padding: 3px 3px 3px 3px;
+    margin: 3px;
+    z-index: 10;
 }

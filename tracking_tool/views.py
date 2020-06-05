@@ -1,12 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, session
 from tracking_tool import app, db, bcrypt
-from flaskext.mysql import MySQL
 from flask_login import login_user, current_user, logout_user, login_required
 from tracking_tool.functions import *
 from tracking_tool.models import *
 from tracking_tool.forms import *
-from datetime import timedelta
-import random
 
 
 @app.route("/")
@@ -54,14 +51,24 @@ def register():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     if current_user.is_authenticated:
-        return render_template('home.html', title='Home', user=current_user)
+        username = current_user.username
+        user = User.query.filter(User.username == username).first()
+        if int(user.authorization) == 1:
+            user = Admins.query.filter(Admins.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 2:
+            user = Advisors.query.filter(Advisors.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 3:
+            user = Students.query.filter(Students.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 4:
+            user = Parents.query.filter(Parents.id == user.ucsf_da_id).first()
+        return render_template('home.html', title='Home', user=current_user, user_info=user)
     else:
         return redirect(url_for('login'))
 
 
 @app.route('/students')
 def students():
-    if current_user.is_authenticated and current_user.authorization <= 2:
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
         form = FilterSortStudents(request.form)
         students = Students.query.all()
         return render_template('students.html', title='Students', students=students, user=current_user, form=form)
@@ -71,8 +78,8 @@ def students():
 
 @app.route('/student_filter', methods=['GET', 'POST'])
 def student_filter():
-    if current_user.is_authenticated and current_user.authorization <= 2:
-        form = FilterSortStudents(request.form)
+    form = FilterSortStudents(request.form)
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
         if request.method == 'POST' and form.validate():
             filters = {'student_id': form.student_id.data,
                        'first_name': form.first_name.data,
@@ -105,6 +112,26 @@ def student_filter():
     students = Students.query.all()
     flash(f'Error with filter.', 'danger')
     return render_template('students.html', title='Students', students=students, user=current_user, form=form)
+
+
+@app.route('/advisor_filter', methods=['GET', 'POST'])
+def advisor_filter():
+    form = FilterSortAdvisors(request.form)
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        if request.method == 'POST' and form.validate():
+            filters = {'advisor_id': form.advisor_id.data,
+                       'first_name': form.first_name.data,
+                       'last_name': form.last_name.data,
+                       'school': form.school.data}
+            final_filters = {}
+            for key, value in filters.items():
+                if value != '' and value != 'All':
+                    final_filters[key] = value
+            advisors = Advisors.query.filter_by(**final_filters).all()
+            return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
+    advisors = Advisors.query.all()
+    flash(f'Error with filter.', 'danger')
+    return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
 
 
 @app.route('/advisors')
