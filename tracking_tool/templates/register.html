@@ -20,19 +20,6 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.authorization.label(class="form-control-label") }}
-                    {% if form.authorization.errors %}
-                        {{ form.authorization.label(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.authorization.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                        {{ form.authorization(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
                     {{ form.ucsf_da_id.label(class="form-control-label") }}
                     {% if form.ucsf_da_id.errors %}
                         {{ form.ucsf_da_id.label(class="form-control form-control-lg is-invalid") }}

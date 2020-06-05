@@ -171,7 +171,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `ucsf_da_id` (`ucsf_da_id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +180,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,123456,'merricat','$2b$12$lef.GfjCMNlef5ZcLqczL.638GaXimp3OelZvO.Kf1O1oXsmZ/9q6'),(2,3,789101,'wallace','$2b$12$XSNcJYzWLE2tLN1YpOxPLuWdbGnAaeJSqfu/VYLmoTPKoS0AWbe1S'),(3,2,234567,'sula','$2b$12$sZQpvobjs2rIb6IJNb4DLOkBCORbjOWH7Mbm/xay.KrOryIdZ2ptu');
+INSERT INTO `user` VALUES (12,3,108700,'george_emmerich','$2b$12$S0CGM.p1//MxAvMufUNyJ.5yZH8Cm5GFee3VDSMg.bF0W36Aqd73m'),(13,2,114006,'meryl_emmerich','$2b$12$z7BV.Rx5aSrawmILtVA4bu0zmxd2PQmdjqM7EHKgIwsSdfSl5tTwG'),(14,1,178183,'donald_ling','$2b$12$MB684wcU5tOtlb3QZo6wU.Ez5eAFrBZlzlcKDA/cELf/PRJQLTjCm'),(15,4,10870001,'george_sasaki','$2b$12$pf3Aoy/SlXma0LI8i0Z5D.ljOBrx7Bqgf8ula2ti2fQ05rr3O.TdO'),(16,5,123456,'merricat_blackwood','$2b$12$HiH7zdn6l/NtjKavRS3yUe9AZFgfwaJsGgaXfjcnxAQaayFxumwKS');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -193,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-04 14:20:53
+-- Dump completed on 2020-06-04 22:11:40
