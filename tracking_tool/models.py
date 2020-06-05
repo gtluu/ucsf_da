@@ -76,3 +76,5 @@ class Students(db.Model):
     parent_2_id = db.Column(db.Integer, nullable=False)
     advisor_id = db.Column(db.Integer, nullable=False)
 
+class Reports(db.Model):
+    id = db.Column(db.Integer, primary_key=True)

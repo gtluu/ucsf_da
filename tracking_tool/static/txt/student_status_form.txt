@@ -1,0 +1,11 @@
+[checkbox1]
+txt = Participate in academic intervention or tutorial sessions as available. This may or may not include seeking assistance from teachers
+
+[checkbox2]
+txt = Plan short- and long-term goals that are reasonable and achievable by the student.
+
+[checkbox3]
+txt = Arrange a meeting with Doctor's Academy Administrator/Counselor. Check if necessary.
+
+[field1]
+txt = Commitment to Tutorial or Assistance

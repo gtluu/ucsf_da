@@ -19,7 +19,6 @@ def login():
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data + user.salt):
-            print('logged_in')
             login_user(user)
             return redirect(url_for('home'))
         else:
@@ -73,7 +72,7 @@ def students():
         students = Students.query.all()
         return render_template('students.html', title='Students', students=students, user=current_user, form=form)
     else:
-        return render_template('restricted_message.html')
+        return redirect(url_for('login'))
 
 
 @app.route('/student_filter', methods=['GET', 'POST'])
@@ -114,6 +113,16 @@ def student_filter():
     return render_template('students.html', title='Students', students=students, user=current_user, form=form)
 
 
+@app.route('/advisors')
+def advisors():
+    if current_user.is_authenticated and current_user.authorization <= 2:
+        form = FilterSortStudents(request.form)
+        advisors = Students.query.all()
+        return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
+    else:
+        return redirect(url_for('login'))
+
+
 @app.route('/advisor_filter', methods=['GET', 'POST'])
 def advisor_filter():
     form = FilterSortAdvisors(request.form)
@@ -134,35 +143,42 @@ def advisor_filter():
     return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
 
 
-@app.route('/advisors')
-def advisors():
-    if current_user.is_authenticated and current_user.authorization <= 2:
-        form = FilterSortStudents(request.form)
-        advisors = Students.query.all()
-        return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
-    else:
-        return render_template('restricted_message.html')
-
-
 @app.route('/new_student_form')
 def new_student_form():
     if current_user.is_authenticated and current_user.authorization <= 2:
         return check_session('new_student_form.html', None)
     else:
-        return render_template('restricted_message.html')
+        return redirect(url_for('login'))
 
 
 @app.route('/student_status_change')
 def student_status_change():
-    if current_user.is_authenticated and current_user.authorization <= 2:
-        return check_session('student_status_change.html', None)
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        form = StudentStatusChange(request.form)
+        return render_template('student_status_change.html', title='Student Status Change Form', user=current_user,
+                               form=form)
     else:
-        return render_template('restricted_message.html')
+        return redirect(url_for('login'))
+
+
+@app.route('/student_status_change_submit', methods=['GET', 'POST'])
+def student_status_change_submit():
+    form = StudentStatusChange(request.form)
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        if request.method == 'POST' and form.validate():
+            salt, hashed_password = hash_password(form)
+            user = User(id=generate_sys_id(),
+                        authorization=set_auth_level(form),
+                        username=form.username.data,
+                        salt=salt,
+                        ucsf_da_id=form.ucsf_da_id.data,
+                        password=hashed_password)
+            db.session.add(user)
 
 
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 

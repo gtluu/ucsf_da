@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from tracking_tool.models import *
+import configparser
+import os
 
 
 class RegistrationForm(FlaskForm):
@@ -63,3 +65,22 @@ class FilterSortAdvisors(FlaskForm):
                                             ('Blackwell Academy', 'Blackwell Academy'),
                                             ('Bullworth Academy', 'Bullworth Academy')])
     submit = SubmitField('Filter')
+
+
+class StudentStatusChange(FlaskForm):
+    student_id = StringField('Student ID')
+    status = SelectField('Student Status', choices=[('Intervention', 'Intervention'),
+                                                    ('Probation', 'Probation'),
+                                                    ('Excused', 'Excused'),
+                                                    ('Withdrawn', 'Withdrawn'),
+                                                    ('Moved', 'Moved')], validate_choice=False)
+    config = configparser.ConfigParser()
+    config.read(os.path.dirname(__file__) + '/static/txt/student_status_form.txt')
+    checkbox1 = BooleanField(config['checkbox1']['txt'])
+    field1 = TextAreaField(config['field1']['txt'])
+    checkbox2 = BooleanField(config['checkbox2']['txt'])
+    field2 = TextAreaField('Student Goals')
+    checkbox3 = BooleanField(config['checkbox3']['txt'])
+    field3 = TextAreaField('')
+    field4 = TextAreaField('Additional Notes')
+    submit = SubmitField('Submit')
