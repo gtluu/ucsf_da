@@ -14,9 +14,16 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
 
-        # if user already exists
+        # if username already exists
         if user:
             raise ValidationError('That username is taken. Please choose a different one.')
+
+    def validate_ucsf_da_id(self, ucsf_da_id):
+        user = User.query.filter_by(ucsf_da_id=ucsf_da_id.data).first()
+
+        # if ucsf_da_id already exists
+        if user:
+            raise ValidationError('Invalid ID.')
 
 
 class LoginForm(FlaskForm):
