@@ -8,8 +8,8 @@ form {
     transform: translate(-50%, -40%);
 }
 input {
-    width: 250px;
-    font-size: 16pt;
+    width: 350px;
+    font-size: 20pt;
     background-color: rgb(245,245,245);
     border-radius: 3px;
     padding: 3px 3px 3px 3px;
@@ -19,8 +19,8 @@ input:focus {
     background-color: rgb(255,255,255)
 }
 button {
-    width: 250px;
-    font-size: 16pt;
+    width: 350px;
+    font-size: 20pt;
     background-color: rgb(245,245,245);
     border-radius: 3px;
     padding: 3px 3px 3px 3px;

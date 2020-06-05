@@ -11,24 +11,27 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     # columns for table
 
-    id = db.Column(db.Integer, primary_key=True, unique=True)  # primary_key indicates unique identifier
-    authorization = db.Column(db.Integer, nullable=False)
-    ucsf_da_id = db.Column(db.Integer, unique=True, nullable=False)
-    username = db.Column(db.String(45), unique=True, nullable = False)
-    password = db.Column(db.String(60), nullable=False)
+    id = db.Column(db.Integer(), primary_key=True, unique=True)  # primary_key indicates unique identifier
+    authorization = db.Column(db.Integer(), nullable=False)
+    ucsf_da_id = db.Column(db.Integer(), unique=True, nullable=False)
+    username = db.Column(db.String(32), unique=True, nullable = False)
+    salt = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255), nullable=False)
 
     def __repr__(self): # how object is printed
         return f"User('{self.username}')"
 
+
 class Admins(db.Model):
-    id = db.Column(db.Integer, primary_key=True, unique=True)
-    first_name = db.Column(db.String(60), nullable=False)
+    id = db.Column(db.Integer(), primary_key=True, unique=True)
+    first_name = db.Column(db.String(), nullable=False)
     middle_name = db.Column(db.String(60))
     last_name = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     cell_phone = db.Column(db.String(10))
     work_phone = db.Column(db.String(10), nullable=False)
     home_phone = db.Column(db.String(10), nullable=False)
+
 
 class Advisors(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -41,6 +44,7 @@ class Advisors(db.Model):
     home_phone = db.Column(db.String(10), nullable=False)
     school = db.Column(db.String(60), nullable=False)
 
+
 class Parents(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     first_name = db.Column(db.String(60), nullable=False)
@@ -51,6 +55,7 @@ class Parents(db.Model):
     work_phone = db.Column(db.String(10))
     home_phone = db.Column(db.String(10), nullable=False)
     student_id = db.Column(db.Integer, nullable=False)
+
 
 class Students(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)

@@ -1,32 +1,56 @@
-<html>
-    <head>
-        <title>UCSF Doctor's Academy - Login</title>
-        <link href="static/css/students.css" type="text/css" rel="stylesheet"/>
-        <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <img src="static/media/ucsffresno.png">
-                    <li><a href="/logout">Logout</a></li>
-                    <li><a href="/students" class="current">Students</a></li>
-                    <li><a href="/forms">Forms</a></li>
-                    <li><a href="/home">Home</a></li>
-                </ul>
-            </nav>
-        </header>
-        <article>
-            {% for item in data %}
-            <tr>
-                <td>{{item[0]}}</td>
-                <td>{{item[1]}}</td>
-                <td>{{item[2]}}</td>
-                <td>{{item[3]}}</td>
-                <td>{{item[4]}}</td>
-                <td>{{item[5]}}</td>
-            </tr>
-            {% endfor %}
-        </article>
-    </body>
-</html>
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/students.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<form action="/student_filter" method="POST">
+    {{ form.csrf_token }}
+    {{ form.student_id(placeholder="Student ID") }}
+    {{ form.first_name(placeholder="First Name") }}
+    {{ form.last_name(placeholder="Last Name") }}<br>
+    {{ form.school(placeholder="School") }}
+    {{ form.grade(placeholder="Grade") }}<br>
+    {{ form.min_exp_grad(placeholder="Expected Graduation (Min)") }}
+    {{ form.max_exp_grad(placeholder="Expected Graduation (Min)") }}<br>
+    {{ form.min_gpa(placeholder="GPA (Min)") }}
+    {{ form.max_gpa(placeholder="GPA (Max)") }}
+    {{ form.status(placeholder="Student Status") }}<br>
+    {{ form.fmp_id(placeholder="FMP ID") }}
+    {{ form.parent_id(placeholder="Parent ID") }}
+    {{ form.advisor_id(placeholder="Advisor ID") }}<br><br>
+    {{ form.submit(style="width:950px") }}
+</form>
+<table class="centerTable">
+    <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
+        <td>Student ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>School</td>
+        <td>Grade</td>
+        <td>Exp Grad</td>
+        <td>GPA</td>
+        <td>Student Status</td>
+        <td>FMP ID</td>
+        <td>Parent ID(s)</td>
+        <td>Advisor ID</td>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.id }}</td>
+        <td>{{ student.first_name }}</td>
+        <td>{{ student.last_name }}</td>
+        <td>{{ student.school }}</td>
+        <td>{{ student.grade }}</td>
+        <td>{{ student.expected_grad }}</td>
+        <td>{{ student.gpa }}</td>
+        <td>{{ student.program_status }}</td>
+        <td>{{ student.fmp_id }}</td>
+        <td>{{ student.parent_1_id }}, {{ student.parent_2_id }}</td>
+        <td>{{ student.advisor_id }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

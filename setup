@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS ucsfda;
 
 USE ucsfda;
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS user (
     id int(6) NOT NULL UNIQUE,
     authorization int(1),
     ucsf_da_id int(64) UNIQUE,

@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>UCSF Doctor's Academy - Login</title>
+        <link href="static/css/students.css" type="text/css" rel="stylesheet"/>
+        <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <img src="static/media/ucsffresno.png">
+                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="/students" class="current">Students</a></li>
+                    <li><a href="/forms">Forms</a></li>
+                    <li><a href="/home">Home</a></li>
+                </ul>
+            </nav>
+        </header>
+        <article>
+            {% for item in data %}
+            <tr>
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+                <td>{{item[2]}}</td>
+                <td>{{item[3]}}</td>
+                <td>{{item[4]}}</td>
+                <td>{{item[5]}}</td>
+            </tr>
+            {% endfor %}
+        </article>
+    </body>
+</html>

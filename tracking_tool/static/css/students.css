@@ -1,0 +1,56 @@
+body {
+    font-family: "Arial";
+}
+form {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 150px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+input {
+    width: 300px;
+    font-size: 16pt;
+    background-color: rgb(245,245,245);
+    border-radius: 3px;
+    padding: 3px 3px 3px 3px;
+    margin: 10px;
+}
+select {
+    width: 300px;
+    font-size: 16pt;
+    background-color: rgb(245,245,245);
+    border-radius: 3px;
+    padding: 3px 3px 3px 3px;
+    margin: 10px;
+}
+input:focus {
+    background-color: rgb(255,255,255)
+}
+button {
+    width: 900px;
+    font-size: 16pt;
+    background-color: rgb(245,245,245);
+    border-radius: 3px;
+    padding: 3px 3px 3px 3px;
+    margin: 3px;
+}
+table {
+    font-size: 12pt;
+    text-align: left;
+}
+.centerTable {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: 500px;
+    width: 60%;
+}
+tr, td {
+    padding: 10px;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

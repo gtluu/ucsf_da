@@ -1,0 +1,23 @@
+body {
+    font-family: "Arial";
+}
+article {
+    width: 30%;
+    position: relative;
+    top: 100px;
+    margin: auto;
+    z-index: -1;
+}
+article p {
+    font-size: 16pt;
+}
+article ul {
+    list-style-type: none;
+}
+article ul li {
+    font-size: 16pt;
+    padding: 20px;
+}
+article ul li a {
+    text-decoration: none;
+}

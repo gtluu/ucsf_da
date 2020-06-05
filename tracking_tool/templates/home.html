@@ -1,21 +1,84 @@
-{% extends "layout.html" %}
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/home.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
 {% block content %}
-    <html>
-    <head>
-        <title>UCSF Doctor's Academy - Login</title>
-        <link href="static/css/index.css" rel="stylesheet" type="text/css"/>
-        <link href="static/css/header.css" rel="stylesheet" type="text/css"/>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <a href="https://www.fresno.ucsf.edu/latino-center-for-medical-education-and-research/about-da/">
-                        <img src="static/media/ucsffresno.png">
-                    </a>
-                </ul>
-            </nav>
-        </header>
-    </body>
-</html>
-{% endblock content %}
+{% if user.authorization == 1 %}
+<article>
+    <p style="font-size:20pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p>Email: </p>
+    <p>Cell Phone: </p>
+    <p>Work Phone: </p>
+    <p>Home Phone: </p>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+<br>
+<br>
+<article>
+    <p style="font-size:20pt">Forms</p>
+    <ul>
+        <li><a href="/new_advisor_form">Add New Advisor</a></li>
+        <li><a href="/update_advisor_form">Update Advisor</a></li>
+        <li><a href="/new_student_form">Add New Student</a></li>
+        <li><a href="/update_student_form">Update Student</a></li>
+        <li><a href="/student_status_change">Student Status Change Form</a></li>
+    </ul>
+</article>
+{% elif user.authorization == 2 %}
+<article>
+    <p style="font-size:20pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p>Email: </p>
+    <p>Cell Phone: </p>
+    <p>Work Phone: </p>
+    <p>Home Phone: </p>
+    <p>School: </p>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+<br>
+<article>
+    <p style="font-size:20pt">Forms</p>
+    <ul>
+        <li><a href="/new_student_form">Add New Student</a></li>
+        <li><a href="/update_student_form">Update Student</a></li>
+        <li><a href="/student_status_change">Student Status Change Form</a></li>
+    </ul>
+</article>
+{% elif user.authorization == 3 %}
+<article>
+    <p style="font-size:20pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p>Email: </p>
+    <p>Cell Phone: </p>
+    <p>Work Phone: </p>
+    <p>Home Phone: </p>
+    <p>School: </p>
+    <p>Grade: </p>
+    <p>Expected Graduation: </p>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+{% elif user.authorization == 4 %}
+<article>
+    <p style="font-size:20pt">Hello,</p>
+    <p>UCSF ID: </p>
+    <p>Email: </p>
+    <p>Cell Phone: </p>
+    <p>Work Phone: </p>
+    <p>Home Phone: </p>
+    <p>Child: </p>
+    <form action="/edit_information">
+        <button type="button">Edit Information</button>
+    </form>
+</article>
+{% endif %}
+{% endblock %}

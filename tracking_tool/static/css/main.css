@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-steel {
-  background-color: #5f788a;
+  background-color: rgb(18,34,72);
 }
 
 .site-header .navbar-nav .nav-link {
@@ -79,17 +79,4 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 
-    © 2020 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
-
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
 

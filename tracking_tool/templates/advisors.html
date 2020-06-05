@@ -1,0 +1,33 @@
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/advisors.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<form action="/advisor_filter" method="POST">
+    {{ form.csrf_token }}
+    {{ form.advisor_id(placeholder="Advisor ID") }}
+    {{ form.school(placeholder="School") }}<br>
+    {{ form.first_name(placeholder="First Name") }}
+    {{ form.last_name(placeholder="Last Name") }}<br><br>
+    {{ form.submit(style="width:625px") }}
+</form>
+<table class="centerTable">
+    <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
+        <td>Advisor ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>School</td>
+    </tr>
+    {% for advisor in advisors %}
+    <tr>
+        <td>{{ advisor.id }}</td>
+        <td>{{ advisor.first_name }}</td>
+        <td>{{ advisor.last_name }}</td>
+        <td>{{ advisor.school }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
