@@ -1,21 +1,9 @@
 - gui for admins to add other admins, advisors, students, parents
-- sorting via column name
+- sorting via column name (first pass completed)
 - add links to student, parent, and advisor ids in tables
 - make reports table for student status change info; will be displayed on student reports page
 
-To do (updated 20200604)
+To do (updated 20200606)
 
-If we want to continue using SQLAlchemy, FlaskForms, flask_login etc.
+intuitively sort by column name (button?)
 
-Update: first pass completion of tasks 1, 3, and 4
-
-1. Get SQLAlchemy connected to MySQL db - done
-
-2. Security features to make Create New User secure.
-- Right now anyone can say they're a supervisor etc. so not great security-wise.
-
-3. Cleaning up Registration Page in general so it has login/logout functionality - done
-
-4. Functional and authorization-level-relevant login and logout pages - done
-
-Also happy to collaborate and clarify what each of us wants to tackle.
