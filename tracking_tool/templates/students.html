@@ -23,19 +23,21 @@
     {{ form.advisor_id(placeholder="Advisor ID") }}<br><br>
     {{ form.submit(style="width:950px") }}
 </form>
-<table class="centerTable">
+<table class="centerTable" id="StudentTable">
     <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
-        <td>Student ID</td>
-        <td>First Name</td>
-        <td>Last Name</td>
-        <td>School</td>
-        <td>Grade</td>
-        <td>Exp Grad</td>
-        <td>GPA</td>
-        <td>Student Status</td>
-        <td>FMP ID</td>
-        <td>Parent ID(s)</td>
-        <td>Advisor ID</td>
+    <!--When a header is clicked, run the sortTable function, with a parameter,
+    0 for sorting by names, 1 for sorting by country: -->
+    <td onclick="sortTable(0)">Student ID</td>
+    <td onclick="sortTable(1)">First Name</td>
+    <td onclick="sortTable(2)">Last Name</td>
+    <td onclick="sortTable(3)">School</td>
+    <td onclick="sortTable(4)">Grade</td>
+    <td onclick="sortTable(5)">Exp Grad</td>
+    <td onclick="sortTable(6)">GPA</td>
+    <td onclick="sortTable(7)">Student Status</td>
+    <td onclick="sortTable(8)">FMP ID</td>
+    <td onclick="sortTable(9)">Parent ID(s)</td>
+    <td onclick="sortTable(10)">Advisor ID</td>
     </tr>
     {% for student in students %}
     <tr>
@@ -53,4 +55,60 @@
     </tr>
     {% endfor %}
 </table>
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("StudentTable");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc";
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
 {% endblock %}
