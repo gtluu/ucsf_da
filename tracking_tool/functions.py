@@ -7,6 +7,7 @@ from tracking_tool.forms import RegistrationForm, LoginForm
 from datetime import timedelta
 import random
 import string
+import datetime
 
 
 def check_session(page, data):
@@ -58,3 +59,10 @@ def set_auth_level(form):
 def hash_password(form):
     salt = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(128))
     return (salt, bcrypt.generate_password_hash(form.password.data + salt).decode('utf-8'))
+
+
+def get_timestamp():
+    timestamp = datetime.datetime.now()
+    timestamp = str(timestamp.year) + '-' + str(timestamp.month) + '-' + str(timestamp.day) + ' ' +\
+                str(timestamp.hour) + ':' + str(timestamp.minute) + ':' + str(timestamp.second)
+    return timestamp

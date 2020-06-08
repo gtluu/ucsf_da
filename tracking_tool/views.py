@@ -116,8 +116,8 @@ def student_filter():
 @app.route('/advisors')
 def advisors():
     if current_user.is_authenticated and current_user.authorization <= 2:
-        form = FilterSortStudents(request.form)
-        advisors = Students.query.all()
+        form = FilterSortAdvisors(request.form)
+        advisors = Advisors.query.all()
         return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
     else:
         return redirect(url_for('login'))
@@ -166,14 +166,37 @@ def student_status_change_submit():
     form = StudentStatusChange(request.form)
     if current_user.is_authenticated and int(current_user.authorization) <= 2:
         if request.method == 'POST' and form.validate():
-            salt, hashed_password = hash_password(form)
-            user = User(id=generate_sys_id(),
-                        authorization=set_auth_level(form),
-                        username=form.username.data,
-                        salt=salt,
-                        ucsf_da_id=form.ucsf_da_id.data,
-                        password=hashed_password)
-            db.session.add(user)
+            gpa = Students.query.filter_by(id=form.student_id.data).first().gpa
+            submitter_id = User.query.filter_by(username=current_user.username).first().ucsf_da_id
+            report = Reports(id=form.student_id.data,
+                             submitter_id=submitter_id,
+                             timestamp=datetime.datetime.now(),
+                             program_status=form.status.data,
+                             gpa=gpa,
+                             student_sig=0,
+                             parent_sig=0,
+                             intervention=form.checkbox1.data,
+                             commitment=form.field1.data,
+                             plan=form.checkbox2.data,
+                             student_goals=form.field2.data,
+                             arrange=form.checkbox3.data,
+                             arrange_notes=form.field3.data,
+                             additional_notes=form.field4.data)
+            db.session.add(report)
+            db.session.commit()
+            flash(f'Student Status Change Submitted', 'success')
+            return redirect(url_for('student_status_change'))
+        return render_template('student_status_change.html', title='Student Status Change Form', user=current_user,
+                               form=form)
+
+
+@app.route('/student_report', methods=['GET', 'POST'])
+def student_report():
+    student_id = int(request.args.get('id'))
+    student = Students.query.filter_by(id=student_id).first()
+    reports = Reports.query.filter_by(id=student.id).all()
+    title = student.first_name + ' ' + student.last_name
+    return render_template('student_report.html', title=title, student=student, reports=reports, user=current_user)
 
 
 @app.route("/logout")

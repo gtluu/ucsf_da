@@ -1,64 +1,67 @@
 {% extends "header.html" %}
 
 {% block css %}
-<link href="static/css/students.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/student_report.css" type="text/css" rel="stylesheet"/>
 <link href="static/css/header.css" type="text/css" rel="stylesheet"/>
 {% endblock %}
 
 {% block content %}
-<form action="/student_filter" method="POST">
-    {{ form.csrf_token }}
-    {{ form.student_id(placeholder="Student ID") }}
-    {{ form.first_name(placeholder="First Name") }}
-    {{ form.last_name(placeholder="Last Name") }}<br>
-    {{ form.school(placeholder="School") }}
-    {{ form.grade(placeholder="Grade") }}<br>
-    {{ form.min_exp_grad(placeholder="Expected Graduation (Min)") }}
-    {{ form.max_exp_grad(placeholder="Expected Graduation (Min)") }}<br>
-    {{ form.min_gpa(placeholder="GPA (Min)") }}
-    {{ form.max_gpa(placeholder="GPA (Max)") }}
-    {{ form.status(placeholder="Student Status") }}<br>
-    {{ form.fmp_id(placeholder="FMP ID") }}
-    {{ form.parent_id(placeholder="Parent ID") }}
-    {{ form.advisor_id(placeholder="Advisor ID") }}<br><br>
-    {{ form.submit(style="width:950px") }}
-</form>
-<table class="centerTable" id="StudentTable">
+<table class="centerTable">
+    <tr>
+        <td>Student Name</td>
+        <td>{{ student.first_name }} {{student.middle_name }} {{ student.last_name }}</td>
+    </tr>
+    <tr>
+        <td>Expected Graduation Year</td>
+        <td>{{ student.expected_grad }}</td>
+    </tr>
+    <tr>
+        <td>FMP ID</td>
+        <td>{{ student.fmp_id }}</td>
+    </tr>
+    <tr>
+        <td>Advisor ID</td>
+        <td>{{ student.advisor_id }}</td>
+    </tr>
+    <tr>
+        <td>Program Status</td>
+        <td>{{ student.program_status }}</td>
+    </tr>
+</table>
+<table class="centerTable" id="ReportTable">
     <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
     <!--When a header is clicked, run the sortTable function, with a parameter,
     0 for sorting by names, 1 for sorting by country: -->
-        <td onclick="sortTable(0)">Student ID</td>
-        <td onclick="sortTable(1)">First Name</td>
-        <td onclick="sortTable(2)">Last Name</td>
-        <td onclick="sortTable(3)">School</td>
-        <td onclick="sortTable(4)">Grade</td>
-        <td onclick="sortTable(5)">Exp Grad</td>
-        <td onclick="sortTable(6)">GPA</td>
-        <td onclick="sortTable(7)">Student Status</td>
-        <td onclick="sortTable(8)">FMP ID</td>
-        <td onclick="sortTable(9)">Parent ID(s)</td>
-        <td onclick="sortTable(10)">Advisor ID</td>
+        <td onclick="sortTable(0)">Date</td>
+        <td onclick="sortTable(1)">Status</td>
+        <td onclick="sortTable(2)">Notes</td>
+        <td onclick="sortTable(3)">GPA</td>
+        <td onclick="sortTable(4)">Student Signature</td>
+        <td onclick="sortTable(5)">Parent Signature</td>
     </tr>
-    {% for student in students %}
+    {% for report in reports %}
     <tr>
-        <td><a href="{{url_for('student_report', id=student.id)}}">{{ student.id }}</a></td>
-        <td>{{ student.first_name }}</td>
-        <td>{{ student.last_name }}</td>
-        <td>{{ student.school }}</td>
-        <td>{{ student.grade }}</td>
-        <td>{{ student.expected_grad }}</td>
-        <td>{{ student.gpa }}</td>
-        <td>{{ student.program_status }}</td>
-        <td>{{ student.fmp_id }}</td>
-        <td>{{ student.parent_1_id }}, {{ student.parent_2_id }}</td>
-        <td>{{ student.advisor_id }}</td>
+        <td>{{ report.timestamp }}</td>
+        <td>{{ report.program_status }}</td>
+        <td>{{ report.additional_notes }}</td>
+        <td>{{ report.gpa }}</td>
+        {% if report.student_sig == 0 %}
+        <td>None</td>
+        {% else %}
+        <td>{{ report.student_sig }}</td>
+        {% endif %}
+        {% if report.parent_sig == 0 %}
+        <td>None</td>
+        {% else %}
+        <td>{{ report.parent_sig }}</td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
 <script>
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("StudentTable");
+  table = document.getElementById("AdvisorTable");
   switching = true;
   //Set the sorting direction to ascending:
   dir = "asc";

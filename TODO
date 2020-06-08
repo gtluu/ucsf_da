@@ -1,9 +1,7 @@
 - gui for admins to add other admins, advisors, students, parents
-- sorting via column name (first pass completed)
-- add links to student, parent, and advisor ids in tables
-- make reports table for student status change info; will be displayed on student reports page
+- fmp library integration
 
 To do (updated 20200606)
 
-intuitively sort by column name (button?)
+intuitively sort by column name (button?) (done?)
 

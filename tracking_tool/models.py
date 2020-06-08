@@ -1,5 +1,6 @@
 from tracking_tool import db, login_manager
 from flask_login import UserMixin
+import datetime
 
 
 @login_manager.user_loader
@@ -69,12 +70,26 @@ class Students(db.Model):
     school = db.Column(db.String(60), nullable=False)
     grade = db.Column(db.String(16), nullable=False)
     expected_grad = db.Column(db.Integer, nullable=False)
-    gpa = db.Column(db.String(60), nullable=False)
+    gpa = db.Column(db.Float, nullable=False)
     program_status = db.Column(db.String(16), nullable=False)
     fmp_id = db.Column(db.Integer, unique=True, nullable=False)
     parent_1_id = db.Column(db.Integer, nullable=False)
     parent_2_id = db.Column(db.Integer, nullable=False)
     advisor_id = db.Column(db.Integer, nullable=False)
 
+
 class Reports(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    submitter_id = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.now())
+    program_status = db.Column(db.String(16), nullable=False)
+    gpa = db.Column(db.String(60), nullable=False)
+    student_sig = db.Column(db.Integer)
+    parent_sig = db.Column(db.Integer)
+    intervention = db.Column(db.Boolean)
+    commitment = db.Column(db.String(65535))
+    plan = db.Column(db.Boolean)
+    student_goals = db.Column(db.String(65535))
+    arrange = db.Column(db.Boolean)
+    arrange_notes = db.Column(db.String(65535))
+    additional_notes = db.Column(db.String(65535))

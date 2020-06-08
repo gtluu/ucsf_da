@@ -71,5 +71,23 @@ CREATE TABLE IF NOT EXISTS parents (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS reports(
+    id INT(64) NOT NULL UNIQUE,
+    submitter_id int(64) NOT NULL,
+    timestamp TIMESTAMP,
+    program_status varchar(16),
+    gpa double(3, 2),
+    student_sig INT(64),
+    parent_sig INT(64),
+    intervention BOOL,
+    commitment TEXT,
+    plan BOOL,
+    student_goals TEXT,
+    arrange BOOL,
+    arrange_notes TEXT,
+    additional_notes TEXT,
+    PRIMARY KEY (id)
+);
+
 INSERT INTO users (id, authorization, ucsf_da_id, username, salt, password) VALUES (100000, 0, 912, 'bass', 'salt', 'pw');
 INSERT INTO admins (id, first_name, last_name) VALUES (912713, 'G', 'Bass');
