@@ -6,28 +6,14 @@
 {% endblock %}
 
 {% block content %}
-<table class="centerTable">
-    <tr>
-        <td>Student Name</td>
-        <td>{{ student.first_name }} {{student.middle_name }} {{ student.last_name }}</td>
-    </tr>
-    <tr>
-        <td>Expected Graduation Year</td>
-        <td>{{ student.expected_grad }}</td>
-    </tr>
-    <tr>
-        <td>FMP ID</td>
-        <td>{{ student.fmp_id }}</td>
-    </tr>
-    <tr>
-        <td>Advisor ID</td>
-        <td>{{ student.advisor_id }}</td>
-    </tr>
-    <tr>
-        <td>Program Status</td>
-        <td>{{ student.program_status }}</td>
-    </tr>
-</table>
+<div id="student_info">
+    <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
+    Student ID: {{ student.id }}<br><br>
+    Expected Graduation Year: {{ student.expected_grad }}<br><br>
+    FMP ID: {{ student.fmp_id }}<br><br>
+    Advisor ID: {{ student.advisor_id }}<br><br>
+    Program Status: {{ student.program_status }}</p>
+</div>
 <table class="centerTable" id="ReportTable">
     <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
     <!--When a header is clicked, run the sortTable function, with a parameter,
@@ -45,15 +31,39 @@
         <td>{{ report.program_status }}</td>
         <td>{{ report.additional_notes }}</td>
         <td>{{ report.gpa }}</td>
+        {% if user.authorization == 1 or user.authorization == 2 %}
         {% if report.student_sig == 0 %}
-        <td>None</td>
+        <td> </td>
         {% else %}
         <td>{{ report.student_sig }}</td>
         {% endif %}
         {% if report.parent_sig == 0 %}
-        <td>None</td>
+        <td> </td>
         {% else %}
         <td>{{ report.parent_sig }}</td>
+        {% endif %}
+        {% elif user.authorization == 3 %}
+        {% if report.student_sig == 0 %}
+        <td><a href="{{url_for('get_signature', id=report.id, timestamp=report.timestamp)}}">Sign</a></td>
+        {% else %}
+        <td>{{ report.student_sig }}</td>
+        {% endif %}
+        {% if report.parent_sig == 0 %}
+        <td> </td>
+        {% else %}
+        <td>{{ report.parent_sig }}</td>
+        {% endif %}
+        {% elif user.authorization == 4 %}
+        {% if report.student_sig == 0 %}
+        <td> </td>
+        {% else %}
+        <td>{{ report.student_sig }}</td>
+        {% endif %}
+        {% if report.parent_sig == 0 %}
+        <td><a href="{{url_for('get_signature', id=report.id, timestamp=report.timestamp)}}">Sign</a></td>
+        {% else %}
+        <td>{{ report.parent_sig }}</td>
+        {% endif %}
         {% endif %}
     </tr>
     {% endfor %}

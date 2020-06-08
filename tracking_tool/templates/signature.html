@@ -1,0 +1,14 @@
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/index.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<form action="{{url_for('sign_report', form_id=form_id, form_timestamp=form_timestamp)}}" method="POST">
+    {{ form.csrf_token }}
+    {{ form.password(placeholder="Password") }}<br><br>
+    {{ form.submit }}
+</form>
+{% endblock %}

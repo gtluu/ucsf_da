@@ -108,9 +108,12 @@ def student_filter():
                     students = [i for i in students
                                 if float(ranges['min_gpa']) <= float(i.gpa) <= float(ranges['max_gpa'])]
             return render_template('students.html', title='Students', students=students, user=current_user, form=form)
-    students = Students.query.all()
-    flash(f'Error with filter.', 'danger')
-    return render_template('students.html', title='Students', students=students, user=current_user, form=form)
+        else:
+            students = Students.query.all()
+            flash(f'Error with filter.', 'danger')
+            return render_template('students.html', title='Students', students=students, user=current_user, form=form)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/advisors')
@@ -138,15 +141,10 @@ def advisor_filter():
                     final_filters[key] = value
             advisors = Advisors.query.filter_by(**final_filters).all()
             return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
-    advisors = Advisors.query.all()
-    flash(f'Error with filter.', 'danger')
-    return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
-
-
-@app.route('/new_student_form')
-def new_student_form():
-    if current_user.is_authenticated and current_user.authorization <= 2:
-        return check_session('new_student_form.html', None)
+        else:
+            advisors = Advisors.query.all()
+            flash(f'Error with filter.', 'danger')
+            return render_template('advisors.html', title='Advisors', advisors=advisors, user=current_user, form=form)
     else:
         return redirect(url_for('login'))
 
@@ -168,7 +166,12 @@ def student_status_change_submit():
         if request.method == 'POST' and form.validate():
             gpa = Students.query.filter_by(id=form.student_id.data).first().gpa
             submitter_id = User.query.filter_by(username=current_user.username).first().ucsf_da_id
-            report = Reports(id=form.student_id.data,
+            report_id_list = [i.report_id for i in Reports.query.all()]
+            report_id = random.randint(1000000, 9999999)
+            while report_id in report_id_list:
+                report_id = random.randint(1000000, 9999999)
+            report = Reports(report_id=report_id,
+                             id=form.student_id.data,
                              submitter_id=submitter_id,
                              timestamp=datetime.datetime.now(),
                              program_status=form.status.data,
@@ -183,20 +186,85 @@ def student_status_change_submit():
                              arrange_notes=form.field3.data,
                              additional_notes=form.field4.data)
             db.session.add(report)
+            student = Students.query.filter_by(id=form.student_id.data).first()
+            student.program_status = form.status.data
             db.session.commit()
             flash(f'Student Status Change Submitted', 'success')
             return redirect(url_for('student_status_change'))
         return render_template('student_status_change.html', title='Student Status Change Form', user=current_user,
                                form=form)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/student_report', methods=['GET', 'POST'])
 def student_report():
-    student_id = int(request.args.get('id'))
-    student = Students.query.filter_by(id=student_id).first()
-    reports = Reports.query.filter_by(id=student.id).all()
-    title = student.first_name + ' ' + student.last_name
-    return render_template('student_report.html', title=title, student=student, reports=reports, user=current_user)
+    if current_user.is_authenticated:
+        if int(current_user.authorization) <= 3:
+            student_id = int(request.args.get('id'))
+        elif int(current_user.authorization) == 4:
+            student_id = int(request.args.get('id')[:-2])
+        if int(current_user.authorization) >= 3:
+            if student_id != current_user.ucsf_da_id:
+                student_id = int(Students.query.filter_by(id=current_user.ucsf_da_id).first().id)
+        student = Students.query.filter_by(id=student_id).first()
+        tmp_reports = Reports.query.filter_by().all()
+        reports = []
+        for i in tmp_reports:
+            if int(i.student_sig) != 0:
+                name = student.first_name + ' ' + student.middle_name + ' ' + student.last_name
+                i.student_sig = name
+            if int(i.parent_sig) != 0:
+                parent = Parents.query.filter_by(id=i.parent_sig).first()
+                name = parent.first_name + ' ' + parent.middle_name + ' ' + parent.last_name
+                i.parent_sig = name
+            reports.append(i)
+        title = student.first_name + ' ' + student.last_name
+        return render_template('student_report.html', title=title, student=student, reports=reports, user=current_user)
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/get_signature', methods=['GET', 'POST'])
+def get_signature():
+    if current_user.is_authenticated:
+        form_id = request.args.get('id')
+        form_timestamp = request.args.get('timestamp')
+        form = SignatureForm(request.form)
+        return render_template('signature.html', title='Signature', form=form, form_id=form_id,
+                               form_timestamp=form_timestamp, user=current_user)
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/sign_report', methods=['GET', 'POST'])
+def sign_report():
+    form = SignatureForm(request.form)
+    if current_user.is_authenticated:
+        if request.method == 'POST' and form.validate():
+            form_id = request.args.get('form_id')
+            form_timestamp = request.args.get('form_timestamp')
+            report = Reports.query.filter_by(id=form_id, timestamp=form_timestamp).first()
+            if int(current_user.authorization) == 3:
+                signer = Students.query.filter_by(id=form_id).first()
+            elif int(current_user.authorization) == 4:
+                signer = Parents.query.filter_by(id=form_id).first()
+            user = User.query.filter_by(ucsf_da_id=signer.id).first()
+            if user and bcrypt.check_password_hash(user.password, form.password.data + user.salt):
+                if int(current_user.authorization) == 3:
+                    report.student_sig = signer.id
+                elif int(current_user.authorization) == 4:
+                    report.student_sig = signer.id
+                db.session.commit()
+                return redirect(url_for('student_report', id=current_user.ucsf_da_id))
+            else:
+                flash(f'Incorrect Password', 'danger')
+                return redirect(url_for('student_report', id=current_user.ucsf_da_id))
+        else:
+            flash(f'Incorrect Password', 'danger')
+            return redirect(url_for('student_report', id=current_user.ucsf_da_id))
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route("/logout")

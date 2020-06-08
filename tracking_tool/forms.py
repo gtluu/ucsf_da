@@ -90,3 +90,8 @@ class StudentStatusChange(FlaskForm):
     field3 = TextAreaField('')
     field4 = TextAreaField('Additional Notes')
     submit = SubmitField('Submit')
+
+
+class SignatureForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Sign')

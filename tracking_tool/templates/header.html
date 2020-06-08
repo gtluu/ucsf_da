@@ -21,14 +21,14 @@
     <ul>
         <li style="float:left"><a href="http://ucsf.edu">UCSF Doctor's Academy</a></li>
         <li style="float: right;width: 175px;text-align: center;border-left:1.5px solid rgb(249,246,249)"><a href="/logout">Logout</a></li>
-        <li style="float: right;width: 175px;text-align: center;border-left:1.5px solid rgb(249,246,249);border-right:1.5px solid rgb(249,246,249)"><a href="/reports">Reports</a></li>
+        <li style="float: right;width: 175px;text-align: center;border-left:1.5px solid rgb(249,246,249);border-right:1.5px solid rgb(249,246,249)"><a href="{{url_for('student_report', id=user.ucsf_da_id)}}">Reports</a></li>
         <li style="float: right;width: 175px;text-align: center;border-right:1.5px solid rgb(249,246,249)"><a href="/home">Home</a></li>
     </ul>
     {% elif user.authorization == 4 %}
     <ul>
         <li style="float:left"><a href="http://ucsf.edu">UCSF Doctor's Academy</a></li>
         <li style="float: right;width: 175px;text-align: center;border-left:1.5px solid rgb(249,246,249)"><a href="/logout">Logout</a></li>
-        <li style="float: right;width: 175px;text-align: center;border-left:1.5px solid rgb(249,246,249);border-right:1.5px solid rgb(249,246,249)"><a href="/reports">Reports</a></li>
+        <li style="float: right;width: 175px;text-align: center;border-left:1.5px solid rgb(249,246,249);border-right:1.5px solid rgb(249,246,249)"><a href="{{url_for('student_report', id=user.ucsf_da_id)}}">Reports</a></li>
         <li style="float: right;width: 175px;text-align: center;border-right:1.5px solid rgb(249,246,249)"><a href="/home">Home</a></li>
     </ul>
     {% endif %}

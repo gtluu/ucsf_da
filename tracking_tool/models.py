@@ -79,7 +79,8 @@ class Students(db.Model):
 
 
 class Reports(db.Model):
-    id = db.Column(db.Integer, primary_key=True, unique=True)
+    report_id = db.Column(db.Integer, primary_key=True, unique=True)
+    id = db.Column(db.Integer)
     submitter_id = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.now())
     program_status = db.Column(db.String(16), nullable=False)
