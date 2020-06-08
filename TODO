@@ -1,6 +1,9 @@
-- gui for admins to add other admins, advisors, students, parents
-- fmp library integration
-- user edit info
+- replace student status change form with new forms
+- move forms page to student info page
+- add page to edit info (phone, address, email, etc.)
+- make student tables downloadable as csv/xlsx
+- add page to display report info to reports table
+- advisors only see students from their school
 
 To do (updated 20200606)
 
