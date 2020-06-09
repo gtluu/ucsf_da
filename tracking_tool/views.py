@@ -87,7 +87,7 @@ def student_filter():
             advisor = Advisors.query.filter_by(id=current_user.ucsf_da_id).first()
             form.school.data = advisor.school
         if request.method == 'POST' and form.validate():
-            filters = {'student_id': form.student_id.data,
+            filters = {'id': form.student_id.data,
                        'first_name': form.first_name.data,
                        'last_name': form.last_name.data,
                        'school': form.school.data,
@@ -142,7 +142,7 @@ def advisor_filter():
     form = FilterSortAdvisors(request.form)
     if current_user.is_authenticated and int(current_user.authorization) <= 2:
         if request.method == 'POST' and form.validate():
-            filters = {'advisor_id': form.advisor_id.data,
+            filters = {'id': form.advisor_id.data,
                        'first_name': form.first_name.data,
                        'last_name': form.last_name.data,
                        'school': form.school.data}
@@ -211,15 +211,17 @@ def student_status_change_submit():
 @app.route('/student_report', methods=['GET', 'POST'])
 def student_report():
     if current_user.is_authenticated:
-        if int(current_user.authorization) <= 3:
+        if int(current_user.authorization) <= 2:
             student_id = int(request.args.get('id'))
-        elif int(current_user.authorization) == 4:
-            student_id = int(request.args.get('id')[:-2])
-        if int(current_user.authorization) >= 3:
+        elif int(current_user.authorization) >= 3:
+            student_id = int(request.args.get('id'))
             if student_id != current_user.ucsf_da_id:
-                student_id = int(Students.query.filter_by(id=current_user.ucsf_da_id).first().id)
+                if int(current_user.authorization) == 3:
+                    student_id = int(current_user.ucsf_da_id)
+                elif int(current_user.authorization) == 4:
+                    student_id = int(current_user.ucsf_da_id[:-2])
         student = Students.query.filter_by(id=student_id).first()
-        tmp_reports = Reports.query.filter_by().all()
+        tmp_reports = Reports.query.filter_by(id=student_id).all()
         reports = []
         for i in tmp_reports:
             if int(i.student_sig) != 0:
