@@ -1,11 +1,11 @@
-from tracking_tool import db, login_manager
+from tracking_tool import db, app, login_manager
 from flask_login import UserMixin
-
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 @login_manager.user_loader
 # check if User authenticated, active, annonymous, get ID
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def load_user(id):
+    return User.query.get(int(id))
 
 
 class User(db.Model, UserMixin):
@@ -15,7 +15,23 @@ class User(db.Model, UserMixin):
     authorization = db.Column(db.Integer, nullable=False)
     ucsf_da_id = db.Column(db.Integer, unique=True, nullable=False)
     username = db.Column(db.String(45), unique=True, nullable = False)
+    email = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(60), nullable=False)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    # don't expect self as an argument; only token
+    def verify_reset_token(token):
+        # this is a static method
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            id = s.loads(token)['id']
+        except:
+            return None
+        return User.query.get(id)
 
     def __repr__(self): # how object is printed
         return f"User('{self.username}')"

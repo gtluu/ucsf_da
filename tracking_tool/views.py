@@ -1,10 +1,11 @@
 from flask import render_template, url_for, flash, redirect, request, session
-from tracking_tool import app, db, bcrypt
+from tracking_tool import app, db, bcrypt, mail
 from flaskext.mysql import MySQL
 from flask_login import login_user, current_user, logout_user, login_required
 from tracking_tool.models import User, Admins, Advisors, Parents, Students
-from tracking_tool.forms import RegistrationForm, LoginForm
+from tracking_tool.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm
 from datetime import timedelta
+from flask_mail import Message
 
 def check_session(page, data):
     try:
@@ -76,7 +77,7 @@ def register():
 
         # create user
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, authorization=authorization, ucsf_da_id=form.ucsf_da_id.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, authorization=authorization, ucsf_da_id=form.ucsf_da_id.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in', 'success')
@@ -125,4 +126,61 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender='noreply@demo.com', recipients=[user.email])
+    msg.body = f''' To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request, then simply ignore this email and no changes will be made.
+'''
+
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        # checks whether email is associated with UCSF DA affiliated member
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm
+    if form.validate_on_submit():
+
+        # set authorization level based on user status
+        is_admin = Admins.query.filter_by(id=form.ucsf_da_id.data).all()
+        is_advisor = Advisors.query.filter_by(id=form.ucsf_da_id.data).all()
+        is_student = Students.query.filter_by(id=form.ucsf_da_id.data).all()
+        is_parent = Parents.query.filter_by(id=form.ucsf_da_id.data).all()
+
+        if is_admin and not is_advisor and not is_student and not is_parent:
+            authorization = 1
+        elif is_advisor and not is_admin and not is_student and not is_parent:
+            authorization = 2
+        elif is_student and not is_admin and not is_advisor and not is_parent:
+            authorization = 3
+        elif is_parent and not is_admin and not is_advisor and not is_student:
+            authorization = 4
+        else:
+            authorization = 5
+
+        # create user
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password= hashed_password
+        db.session.commit()
+        flash(f'Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
 
