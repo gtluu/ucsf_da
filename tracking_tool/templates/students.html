@@ -11,7 +11,9 @@
     {{ form.student_id(placeholder="Student ID") }}
     {{ form.first_name(placeholder="First Name") }}
     {{ form.last_name(placeholder="Last Name") }}<br>
-    {{ form.school(placeholder="School") }}
+    {% if user.authorization == 1 %}
+    {{ form.school }}
+    {% endif %}
     {{ form.grade(placeholder="Grade") }}<br>
     {{ form.min_exp_grad(placeholder="Expected Graduation (Min)") }}
     {{ form.max_exp_grad(placeholder="Expected Graduation (Min)") }}<br>

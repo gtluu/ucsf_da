@@ -69,7 +69,7 @@ class FilterSortAdvisors(FlaskForm):
     school = SelectField('school', choices=[('All', 'All'),
                                             ('Shujin Academy', 'Shujin Academy'),
                                             ('Blackwell Academy', 'Blackwell Academy'),
-                                            ('Bullworth Academy', 'Bullworth Academy')])
+                                            ('Bullworth Academy', 'Bullworth Academy')], default='All')
     submit = SubmitField('Filter')
 
 
@@ -79,7 +79,7 @@ class StudentStatusChange(FlaskForm):
                                                     ('Probation', 'Probation'),
                                                     ('Excused', 'Excused'),
                                                     ('Withdrawn', 'Withdrawn'),
-                                                    ('Moved', 'Moved')], validate_choice=False)
+                                                    ('Moved', 'Moved')])
     config = configparser.ConfigParser()
     config.read(os.path.dirname(__file__) + '/static/txt/student_status_form.txt')
     checkbox1 = BooleanField(config['checkbox1']['txt'])

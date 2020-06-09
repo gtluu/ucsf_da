@@ -69,7 +69,11 @@ def home():
 def students():
     if current_user.is_authenticated and int(current_user.authorization) <= 2:
         form = FilterSortStudents(request.form)
-        students = Students.query.all()
+        if int(current_user.authorization) == 2:
+            advisor = Advisors.query.filter_by(id=current_user.ucsf_da_id).first()
+            students = Students.query.filter_by(school=advisor.school)
+        else:
+            students = Students.query.all()
         return render_template('students.html', title='Students', students=students, user=current_user, form=form)
     else:
         return redirect(url_for('login'))
@@ -79,6 +83,9 @@ def students():
 def student_filter():
     form = FilterSortStudents(request.form)
     if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        if int(current_user.authorization) == 2:
+            advisor = Advisors.query.filter_by(id=current_user.ucsf_da_id).first()
+            form.school.data = advisor.school
         if request.method == 'POST' and form.validate():
             filters = {'student_id': form.student_id.data,
                        'first_name': form.first_name.data,
@@ -109,7 +116,11 @@ def student_filter():
                                 if float(ranges['min_gpa']) <= float(i.gpa) <= float(ranges['max_gpa'])]
             return render_template('students.html', title='Students', students=students, user=current_user, form=form)
         else:
-            students = Students.query.all()
+            if int(current_user.authorization) == 2:
+                advisor = Advisors.query.filter_by(id=current_user.ucsf_da_id).first()
+                students = Students.query.filter_by(school=advisor.school)
+            else:
+                students = Students.query.all()
             flash(f'Error with filter.', 'danger')
             return render_template('students.html', title='Students', students=students, user=current_user, form=form)
     else:
