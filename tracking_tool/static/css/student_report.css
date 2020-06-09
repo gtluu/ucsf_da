@@ -25,5 +25,12 @@ margin-left: auto;
     position: relative;
     top: 150px;
     width: 30%;
-
+}
+button {
+    width: 200px;
+    font-size: 14pt;
+    background-color: rgb(245,245,245);
+    border-radius: 3px;
+    padding: 3px 3px 3px 3px;
+    margin: 3px;
 }

@@ -1,0 +1,44 @@
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/student_status_change.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<article>
+    <form action="/student_status_change_submit" method="POST">
+        <p style="font-size:24pt">Student Status Change Form</p>
+        {{ form.csrf_token }}
+        {{ form.student_id(placeholder="Student ID") }}<br><br>
+        {{ form.status.label }}<br>
+        {{ form.status }}<br><br>
+        <table class="centerTable">
+            <tr>
+                <td style="width:30px">{{ form.checkbox1(style="width:30px") }}</td>
+                <td>{{ form.checkbox1.label }}</td>
+            </tr>
+        </table><br><br>
+        {{ form.field1.label }}<br>
+        {{ form.field1 }}<br><br>
+        <table class="centerTable">
+            <tr>
+                <td style="width:30px">{{ form.checkbox2(style="width:30px") }}</td>
+                <td>{{ form.checkbox2.label }}</td>
+            </tr>
+        </table><br><br>
+        {{ form.field2.label }}<br>
+        {{ form.field2 }}<br><br>
+        <table class="centerTable">
+            <tr>
+                <td style="width:30px">{{ form.checkbox3(style="width:30px") }}</td>
+                <td>{{ form.checkbox3.label }}</td>
+            </tr>
+        </table>
+        {{ form.field3 }}<br><br>
+        {{ form.field4.label }}<br>
+        {{ form.field4 }}<br><br>
+        {{ form.submit() }}
+    </form>
+</article>
+{% endblock %}

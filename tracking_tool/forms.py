@@ -27,6 +27,7 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('Invalid ID.')
 
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -51,6 +52,7 @@ class FilterSortStudents(FlaskForm):
     min_gpa = StringField('GPA')
     max_gpa = StringField('GPA')
     status = SelectField('Student Status', choices=[('All', 'All'),
+                                                    ('Good Standing', 'Good Standing'),
                                                     ('Intervention', 'Intervention'),
                                                     ('Probation', 'Probation'),
                                                     ('Excused', 'Excused'),
@@ -75,7 +77,8 @@ class FilterSortAdvisors(FlaskForm):
 
 class StudentStatusChange(FlaskForm):
     student_id = StringField('Student ID')
-    status = SelectField('Student Status', choices=[('Intervention', 'Intervention'),
+    status = SelectField('Student Status', choices=[('Good Standing', 'Good Standing'),
+                                                    ('Intervention', 'Intervention'),
                                                     ('Probation', 'Probation'),
                                                     ('Excused', 'Excused'),
                                                     ('Withdrawn', 'Withdrawn'),
@@ -95,3 +98,30 @@ class StudentStatusChange(FlaskForm):
 class SignatureForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign')
+
+
+class ProgramInterventionPlanForm(FlaskForm):
+    status = BooleanField('Intervention')
+    field1 = TextAreaField('Reason for Program Intervention')
+    field2 = TextAreaField('What is the plan for intervention?')
+    field3 = TextAreaField('How will student successfully exit the intervention?')
+    submit = SubmitField('Submit')
+
+
+class ProbationForm(FlaskForm):
+    status = BooleanField('Probation')
+    field1 = TextAreaField('Reason for Program Probation')
+    field2 = TextAreaField('How will student successfully exit probation?')
+    submit = SubmitField('Submit')
+
+
+class WithdrawalForm(FlaskForm):
+    status = BooleanField('Withdrawn')
+    type = SelectField('Type of Withdrawal', choices=[('Voluntary', 'Voluntary'),
+                                                      ('Academic Dismissal', 'Academic Dismissal'),
+                                                      ('Other', 'Other')])
+    field1 = TextAreaField('Reason for Withdrawal')
+    checkbox1 = BooleanField('Student was provided with reinstatement policy.')
+    checkbox2 = BooleanField('Meeting was held with student and parent/guardian.')
+    checkbox3 = BooleanField('Student is provided with Exit Survey link.')
+    submit = SubmitField('Submit')

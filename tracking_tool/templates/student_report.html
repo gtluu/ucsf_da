@@ -12,7 +12,18 @@
     Expected Graduation Year: {{ student.expected_grad }}<br><br>
     FMP ID: {{ student.fmp_id }}<br><br>
     Advisor ID: {{ student.advisor_id }}<br><br>
-    Program Status: {{ student.program_status }}</p>
+    Program Status: {{ student.program_status }}</p><br>
+    {% if user.authorization == 1 or user.authorization == 2 %}
+    <form action="{{url_for('intervention_form', id=student.id)}}" method="post">
+        <button type="submit" id="intervention">Intervention Form</button>
+    </form>
+    <form action="{{url_for('probation_form', id=student.id)}}" method="post">
+        <button type="submit" id="probation">Probation Form</button>
+    </form>
+    <form action="{{url_for('withdrawal_form', id=student.id)}}" method="post">
+        <button type="submit" id="withdrawal">Withdrawal Form</button>
+    </form>
+    {% endif %}
 </div>
 <table class="centerTable" id="ReportTable">
     <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">

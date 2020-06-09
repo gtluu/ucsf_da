@@ -6,39 +6,77 @@
 {% endblock %}
 
 {% block content %}
+{% if type == 'intervention' %}
 <article>
-    <form action="/student_status_change_submit" method="POST">
-        <p style="font-size:24pt">Student Status Change Form</p>
+    <form action="/intervention_form_submit" method="POST">
+        <div class="student_info">
+            <p style="font-size:24pt">Program Intervention Plan Form</p>
+            <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
+                Student ID: {{ student.id }}<br><br>
+                Expected Graduation Year: {{ student.expected_grad }}<br><br>
+                FMP ID: {{ student.fmp_id }}<br><br>
+                Advisor ID: {{ student.advisor_id }}<br><br>
+                Program Status: {{ student.program_status }}</p><br><br>
+        </div>
         {{ form.csrf_token }}
-        {{ form.student_id(placeholder="Student ID") }}<br><br>
-        {{ form.status.label }}<br>
-        {{ form.status }}<br><br>
-        <table class="centerTable">
-            <tr>
-                <td style="width:30px">{{ form.checkbox1(style="width:30px") }}</td>
-                <td>{{ form.checkbox1.label }}</td>
-            </tr>
-        </table><br><br>
+        {{ form.status(style="width:30px") }}
+        {{ form.status.label(style="width:100px") }}<br><br>
         {{ form.field1.label }}<br>
         {{ form.field1 }}<br><br>
-        <table class="centerTable">
-            <tr>
-                <td style="width:30px">{{ form.checkbox2(style="width:30px") }}</td>
-                <td>{{ form.checkbox2.label }}</td>
-            </tr>
-        </table><br><br>
         {{ form.field2.label }}<br>
         {{ form.field2 }}<br><br>
-        <table class="centerTable">
-            <tr>
-                <td style="width:30px">{{ form.checkbox3(style="width:30px") }}</td>
-                <td>{{ form.checkbox3.label }}</td>
-            </tr>
-        </table>
+        {{ form.field3.label }}<br>
         {{ form.field3 }}<br><br>
-        {{ form.field4.label }}<br>
-        {{ form.field4 }}<br><br>
-        {{ form.submit() }}
+        {{ form.submit }}
     </form>
 </article>
+{% elif type == 'probation' %}
+<article>
+    <form action="/probation_form_submit" method="POST">
+        <div class="student_info">
+            <p style="font-size:24pt">Probation Form</p>
+            <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
+                Student ID: {{ student.id }}<br><br>
+                Expected Graduation Year: {{ student.expected_grad }}<br><br>
+                FMP ID: {{ student.fmp_id }}<br><br>
+                Advisor ID: {{ student.advisor_id }}<br><br>
+                Program Status: {{ student.program_status }}</p><br><br>
+        </div>
+        {{ form.csrf_token }}
+        {{ form.status(style="width:30px") }}
+        {{ form.status.label(style="width:100px") }}<br><br>
+        {{ form.field1.label }}<br>
+        {{ form.field1 }}<br><br>
+        {{ form.field2.label }}<br>
+        {{ form.field2 }}<br><br>
+        {{ form.submit }}
+    </form>
+</article>
+{% elif type == 'withdrawal' %}
+<article>
+    <form action="/withdrawal_form_submit" method="POST">
+        <div class="student_info">
+            <p style="font-size:24pt">Withdrawal Form</p>
+            <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
+                Student ID: {{ student.id }}<br><br>
+                Expected Graduation Year: {{ student.expected_grad }}<br><br>
+                FMP ID: {{ student.fmp_id }}<br><br>
+                Advisor ID: {{ student.advisor_id }}<br><br>
+                Program Status: {{ student.program_status }}</p><br><br>
+        </div>
+        {{ form.csrf_token }}
+        {{ form.status(style="width:30px") }}
+        {{ form.status.label(style="width:100px") }}<br><br>
+        {{ form.field1.label }}<br>
+        {{ form.field1 }}<br><br>
+        {{ form.checkbox1(style="width:30px") }}
+        {{ form.checkbox1.label(style="width:500px;text-align:left") }}<br><br>
+        {{ form.checkbox2(style="width:30px") }}
+        {{ form.checkbox2.label(style="width:500px;text-align:left") }}<br><br>
+        {{ form.checkbox3(style="width:30px") }}
+        {{ form.checkbox3.label(style="width:500px;text-align:left") }}<br><br>
+        {{ form.submit }}
+    </form>
+</article>
+{% endif %}
 {% endblock %}

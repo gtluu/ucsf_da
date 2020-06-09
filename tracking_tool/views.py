@@ -243,6 +243,42 @@ def report_details():
     pass
 
 
+@app.route('/intervention_form', methods=['GET', 'POST'])
+def intervention_form():
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        form = ProgramInterventionPlanForm(request.form)
+        student_id = request.args.get('id')
+        student = Students.query.filter_by(id=student_id).first()
+        return render_template('student_status_change.html', title='Program Intervention Plan Form', user=current_user,
+                               form=form, student=student, type='intervention')
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/probation_form', methods=['GET', 'POST'])
+def probation_form():
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        form = ProbationForm(request.form)
+        student_id = request.args.get('id')
+        student = Students.query.filter_by(id=student_id).first()
+        return render_template('student_status_change.html', title='Probation Form', user=current_user,
+                               form=form, student=student, type='probation')
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/withdrawal_form', methods=['GET', 'POST'])
+def withdrawal_form():
+    if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        form = WithdrawalForm(request.form)
+        student_id = request.args.get('id')
+        student = Students.query.filter_by(id=student_id).first()
+        return render_template('student_status_change.html', title='Withdrawal Form', user=current_user,
+                               form=form, student=student, type='withdrawal')
+    else:
+        return redirect(url_for('login'))
+
+
 @app.route('/get_signature', methods=['GET', 'POST'])
 def get_signature():
     if current_user.is_authenticated:
