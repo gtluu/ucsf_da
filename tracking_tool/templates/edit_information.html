@@ -1,0 +1,18 @@
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/student_status_change.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+{% if user.authorization == 1 %}
+
+{% elif user.authorization == 2 %}
+
+{% elif user.authorization == 3 %}
+
+{% elif user.authorization == 4 %}
+
+{% endif %}
+{% endblock %}

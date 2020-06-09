@@ -11,13 +11,11 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     # columns for table
-
-
     id = db.Column(db.Integer(), primary_key=True, unique=True)  # primary_key indicates unique identifier
     authorization = db.Column(db.Integer(), nullable=False)
     ucsf_da_id = db.Column(db.Integer(), unique=True, nullable=False)
     username = db.Column(db.String(32), unique=True, nullable = False)
-    email = db.Column(db.String(128), nullable=False)
+    #email = db.Column(db.String(128), nullable=False)
     salt = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255), nullable=False)
 

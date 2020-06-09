@@ -370,6 +370,11 @@ def sign_report():
         return redirect(url_for('login'))
 
 
+@app.route("/edit_information")
+def edit_information():
+    pass
+
+
 @app.route("/logout")
 def logout():
     logout_user()

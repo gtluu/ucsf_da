@@ -126,3 +126,6 @@ class WithdrawalForm(FlaskForm):
     checkbox2 = BooleanField('Meeting was held with student and parent/guardian.')
     checkbox3 = BooleanField('Student is provided with Exit Survey link.')
     submit = SubmitField('Submit')
+
+class editInformationForm(FlaskForm):
+    pass
