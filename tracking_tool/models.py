@@ -12,10 +12,12 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     # columns for table
 
+
     id = db.Column(db.Integer(), primary_key=True, unique=True)  # primary_key indicates unique identifier
     authorization = db.Column(db.Integer(), nullable=False)
     ucsf_da_id = db.Column(db.Integer(), unique=True, nullable=False)
     username = db.Column(db.String(32), unique=True, nullable = False)
+    email = db.Column(db.String(128), nullable=False)
     salt = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255), nullable=False)
 
@@ -25,7 +27,7 @@ class User(db.Model, UserMixin):
 
 class Admins(db.Model):
     id = db.Column(db.Integer(), primary_key=True, unique=True)
-    first_name = db.Column(db.String(), nullable=False)
+    first_name = db.Column(db.String(60), nullable=False)
     middle_name = db.Column(db.String(60))
     last_name = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
@@ -87,4 +89,4 @@ class Reports(db.Model):
     gpa = db.Column(db.String(60), nullable=False)
     student_sig = db.Column(db.Integer)
     parent_sig = db.Column(db.Integer)
-    notes = db.Column(db.String(65535))
+    notes = db.Column(db.Text(65535))

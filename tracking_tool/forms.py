@@ -7,6 +7,7 @@ import os
 
 
 class RegistrationForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     ucsf_da_id = IntegerField("Enter UCSF Doctor's Academy ID", validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])

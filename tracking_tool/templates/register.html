@@ -8,6 +8,7 @@
 {% block content %}
 <form action="/register" method="POST">
     {{ form.csrf_token }}
+    {{ form.email(placeholder="Email") }}<br>
     {{ form.ucsf_da_id(placeholder="UCSF DA ID") }}<br>
     {{ form.username(placeholder="Username") }}<br>
     {{ form.password(placeholder="Password") }}<br>
