@@ -14,9 +14,9 @@
     <p>Cell Phone: {{ user_info.cell_phone }}</p>
     <p>Work Phone: {{ user_info.work_phone }}</p>
     <p>Home Phone: {{ user_info.home_phone }}</p>
-    <!--<form action="/edit_information">
+    <form action="/edit_information">
         <button type="button">Edit Information</button>
-    </form>-->
+    </form>
 </article>
 {% elif user.authorization == 2 %}
 <article>
@@ -27,9 +27,9 @@
     <p>Work Phone: {{ user_info.work_phone }}</p>
     <p>Home Phone: {{ user_info.home_phone }}</p>
     <p>School: {{ user_info.school }}</p>
-    <!--<form action="/edit_information">
+    <form action="/edit_information">
         <button type="button">Edit Information</button>
-    </form>-->
+    </form>
 </article>
 {% elif user.authorization == 3 %}
 <article>
@@ -42,9 +42,9 @@
     <p>School: {{ user_info.school }}</p>
     <p>Grade: {{ user_info.grade }}</p>
     <p>Expected Graduation: {{ user_info.expected_grad }}</p>
-    <!--<form action="/edit_information">
+    <form action="/edit_information">
         <button type="button">Edit Information</button>
-    </form>-->
+    </form>
 </article>
 {% elif user.authorization == 4 %}
 <article>
@@ -54,9 +54,9 @@
     <p>Cell Phone: {{ user_info.cell_phone }}</p>
     <p>Work Phone: {{ user_info.work_phone }}</p>
     <p>Home Phone: {{ user_info.home_phone }}</p>
-    <!--<form action="/edit_information">
+    <form action="/edit_information">
         <button type="button">Edit Information</button>
-    </form>-->
+    </form>
 </article>
 {% endif %}
 {% endblock %}
