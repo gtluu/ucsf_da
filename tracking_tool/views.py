@@ -181,8 +181,6 @@ def student_status_change_submit():
     elif form_type == 'withdrawal':
         form = WithdrawalForm(request.form)
     if current_user.is_authenticated and int(current_user.authorization) <= 2:
-        print(form.validate())
-        print(form.errors)
         if request.method == 'POST' and form.validate():
             student = Students.query.filter_by(id=student_id).first()
             gpa = student.gpa
@@ -272,7 +270,25 @@ def student_report():
 
 @app.route('/report_details', methods=['GET', 'POST'])
 def report_details():
-    pass
+    if current_user.is_authenticated:
+        if int(current_user.authorization) <= 2:
+            student_id = int(request.args.get('id'))
+        elif int(current_user.authorization) >= 3:
+            student_id = int(request.args.get('id'))
+            if student_id != current_user.ucsf_da_id:
+                if int(current_user.authorization) == 3:
+                    student_id = int(current_user.ucsf_da_id)
+                elif int(current_user.authorization) == 4:
+                    student_id = int(current_user.ucsf_da_id[:-2])
+        student = Students.query.filter_by(id=student_id).first()
+        title = student.first_name + ' ' + student.last_name
+        report_id = request.args.get('id')
+        report = Reports.query.filter_by(report_id=report_id).first()
+        report.notes = report.notes.split('---')
+        return render_template('report_details.html', title=title, student=student, report=report,
+                               user=current_user)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/intervention_form', methods=['GET', 'POST'])
