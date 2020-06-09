@@ -238,6 +238,11 @@ def student_report():
         return redirect(url_for('login'))
 
 
+@app.route('/report_details', methods=['GET', 'POST'])
+def report_details():
+    pass
+
+
 @app.route('/get_signature', methods=['GET', 'POST'])
 def get_signature():
     if current_user.is_authenticated:

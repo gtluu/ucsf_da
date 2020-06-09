@@ -18,15 +18,17 @@
     <tr style="background-color: rgb(50,50,50); color: rgb(255, 255, 255);">
     <!--When a header is clicked, run the sortTable function, with a parameter,
     0 for sorting by names, 1 for sorting by country: -->
-        <td onclick="sortTable(0)">Date</td>
-        <td onclick="sortTable(1)">Status</td>
-        <td onclick="sortTable(2)">Notes</td>
-        <td onclick="sortTable(3)">GPA</td>
-        <td onclick="sortTable(4)">Student Signature</td>
-        <td onclick="sortTable(5)">Parent Signature</td>
+        <td onclick="sortTable(0)">ID</td>
+        <td onclick="sortTable(1)">Date</td>
+        <td onclick="sortTable(2)">Status</td>
+        <td onclick="sortTable(3)">Notes</td>
+        <td onclick="sortTable(4)">GPA</td>
+        <td onclick="sortTable(5)">Student Signature</td>
+        <td onclick="sortTable(6)">Parent Signature</td>
     </tr>
     {% for report in reports %}
     <tr>
+        <td><a href="{{url_for('report_details', id=report.report_id)}}">{{ report.report_id }}</a></td>
         <td>{{ report.timestamp }}</td>
         <td>{{ report.program_status }}</td>
         <td>{{ report.additional_notes }}</td>
