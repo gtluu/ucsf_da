@@ -42,7 +42,7 @@
         <td><a href="{{url_for('report_details', id=report.report_id)}}">{{ report.report_id }}</a></td>
         <td>{{ report.timestamp }}</td>
         <td>{{ report.program_status }}</td>
-        <td>{{ report.additional_notes }}</td>
+        <td>{{ report.notes }}</td>
         <td>{{ report.gpa }}</td>
         {% if user.authorization == 1 or user.authorization == 2 %}
         {% if report.student_sig == 0 %}

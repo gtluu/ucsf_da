@@ -172,38 +172,70 @@ def student_status_change():
 
 @app.route('/student_status_change_submit', methods=['GET', 'POST'])
 def student_status_change_submit():
-    form = StudentStatusChange(request.form)
+    form_type = request.args.get('type')
+    student_id = request.args.get('id')
+    if form_type == 'intervention':
+        form = ProgramInterventionPlanForm(request.form)
+    elif form_type == 'probation':
+        form = ProbationForm(request.form)
+    elif form_type == 'withdrawal':
+        form = WithdrawalForm(request.form)
     if current_user.is_authenticated and int(current_user.authorization) <= 2:
+        print(form.validate())
+        print(form.errors)
         if request.method == 'POST' and form.validate():
-            gpa = Students.query.filter_by(id=form.student_id.data).first().gpa
+            student = Students.query.filter_by(id=student_id).first()
+            gpa = student.gpa
             submitter_id = User.query.filter_by(username=current_user.username).first().ucsf_da_id
             report_id_list = [i.report_id for i in Reports.query.all()]
             report_id = random.randint(1000000, 9999999)
             while report_id in report_id_list:
                 report_id = random.randint(1000000, 9999999)
+            if form_type == 'intervention':
+                if form.status.data == 1:
+                    form.status.data = 'Intervention'
+                else:
+                    form.status.data = student.program_status
+                notes = ['Reason for Program Intervention: ' + form.field1.data,
+                         'What is the plan for intervention: ' + form.field2.data,
+                         'How will student successfully exit the intervention: ' + form.field3.data]
+                notes = '---'.join(notes)
+            elif form_type == 'probation':
+                if form.status.data == 1:
+                    form.status.data = 'Probation'
+                else:
+                    form.status.data = student.program_status
+                notes = ['Reason for Program Probation: ' + form.field1.data,
+                         'How will student successfully exit probation: ' + form.field2.data]
+                notes = '---'.join(notes)
+            elif form_type == 'withdrawal':
+                if form.status.data == 1:
+                    form.status.data = 'Withdrawn'
+                else:
+                    form.status.data = student.program_status
+                notes = ['Type of Withdrawal: ' + form.type.data,
+                         'Reason for Withdrawal: ' + form.field1.data,
+                         'Student was provided with reinstatement policy: ' + str(bool(int(form.checkbox1.data))),
+                         'Meeting was held with student and parent/guardian: ' + str(bool(int(form.checkbox1.data))),
+                         'Student is provided with Exit Survey link: ' + str(bool(int(form.checkbox1.data)))]
+                notes = '---'.join(notes)
+
             report = Reports(report_id=report_id,
-                             id=form.student_id.data,
+                             id=student.id,
                              submitter_id=submitter_id,
                              timestamp=datetime.datetime.now(),
                              program_status=form.status.data,
                              gpa=gpa,
                              student_sig=0,
                              parent_sig=0,
-                             intervention=form.checkbox1.data,
-                             commitment=form.field1.data,
-                             plan=form.checkbox2.data,
-                             student_goals=form.field2.data,
-                             arrange=form.checkbox3.data,
-                             arrange_notes=form.field3.data,
-                             additional_notes=form.field4.data)
+                             notes=notes)
             db.session.add(report)
-            student = Students.query.filter_by(id=form.student_id.data).first()
+            student = Students.query.filter_by(id=student_id).first()
             student.program_status = form.status.data
             db.session.commit()
             flash(f'Student Status Change Submitted', 'success')
-            return redirect(url_for('student_status_change'))
-        return render_template('student_status_change.html', title='Student Status Change Form', user=current_user,
-                               form=form)
+            return redirect(url_for('students'))
+        return redirect(url_for('students'))
     else:
         return redirect(url_for('login'))
 

@@ -1,10 +1,6 @@
-- replace student status change form with new forms
-- move forms page to student info page
-    - create new tables in mysql to house info for each report
-    - create views.py functions to handle forms and info passed
 - add page to edit info (phone, address, email, etc.)
 - make student tables downloadable as csv/xlsx
-- add page to display report info to reports table
+- add page to display detailed report info from reports table id
 - add address fields to tables
 
 To do (updated 20200606)

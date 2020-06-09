@@ -8,7 +8,7 @@
 {% block content %}
 {% if type == 'intervention' %}
 <article>
-    <form action="/intervention_form_submit" method="POST">
+    <form action="{{url_for('student_status_change_submit', type='intervention', id=student.id)}}" method="POST">
         <div class="student_info">
             <p style="font-size:24pt">Program Intervention Plan Form</p>
             <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
@@ -32,7 +32,7 @@
 </article>
 {% elif type == 'probation' %}
 <article>
-    <form action="/probation_form_submit" method="POST">
+    <form action="{{url_for('student_status_change_submit', type='probation', id=student.id)}}" method="POST">
         <div class="student_info">
             <p style="font-size:24pt">Probation Form</p>
             <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
@@ -54,7 +54,7 @@
 </article>
 {% elif type == 'withdrawal' %}
 <article>
-    <form action="/withdrawal_form_submit" method="POST">
+    <form action="{{url_for('student_status_change_submit', type='withdrawal', id=student.id)}}" method="POST">
         <div class="student_info">
             <p style="font-size:24pt">Withdrawal Form</p>
             <p>Student Name: {{ student.first_name }} {{student.middle_name }} {{ student.last_name }}<br><br>
@@ -67,6 +67,7 @@
         {{ form.csrf_token }}
         {{ form.status(style="width:30px") }}
         {{ form.status.label(style="width:100px") }}<br><br>
+        {{ form.type }}<br><br>
         {{ form.field1.label }}<br>
         {{ form.field1 }}<br><br>
         {{ form.checkbox1(style="width:30px") }}
