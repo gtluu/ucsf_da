@@ -40,9 +40,9 @@ class FilterSortStudents(FlaskForm):
     first_name = StringField('First Name')
     last_name = StringField('Last Name')
     school = SelectField('school', choices=[('All', 'All'),
-                                            ('Shujin Academy', 'Shujin Academy'),
-                                            ('Blackwell Academy', 'Blackwell Academy'),
-                                            ('Bullworth Academy', 'Bullworth Academy')])
+                                            ('Sunnyside High School', 'Sunnyside High School'),
+                                            ('Caruthers High School', 'Caruthers High School'),
+                                            ('Selma High School', 'Selma High School')])
     grade = SelectField('Grade', choices=[('All', 'All'),
                                           ('Freshman', 'Freshman'),
                                           ('Sophomore', 'Sophomore'),
@@ -70,9 +70,9 @@ class FilterSortAdvisors(FlaskForm):
     first_name = StringField('First Name')
     last_name = StringField('Last Name')
     school = SelectField('school', choices=[('All', 'All'),
-                                            ('Shujin Academy', 'Shujin Academy'),
-                                            ('Blackwell Academy', 'Blackwell Academy'),
-                                            ('Bullworth Academy', 'Bullworth Academy')], default='All')
+                                            ('Sunnyside High School', 'Sunnyside High School'),
+                                            ('Caruthers High School', 'Caruthers High School'),
+                                            ('Selma High School', 'Selma High School')], default='All')
     submit = SubmitField('Filter')
 
 
