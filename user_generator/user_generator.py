@@ -9,9 +9,10 @@ def get_dummy_info():
     return {'first_names': ['Frank', 'Meryl', 'George', 'Roy', 'Hal', 'Mei', 'Johnny', 'Naomi', 'Donald'],
             'last_names': ['Jaeger', 'Silverburgh', 'Sears', 'Campbell', 'Emmerich', 'Ling', 'Sasaki', 'Hunter',
                            'Anderson'],
-            'schools': ['Blackwell Academy', 'Shujin Academy', 'Bullworth Academy'],
+            'street_name': ['Harvard Ave.', 'Ellis St.', 'Athens St.', 'Quesada Ave.'],
+            'schools': ['Sunnyside High School', 'Caruthers High School', 'Selma High School'],
             'grade': ['Freshman', 'Sophomore', 'Junior', 'Senior'],
-            'status': ['Enrolled', 'Graduated', 'Expelled']}
+            'status': ['Good Standing', 'Intervention', 'Probation', 'Excused', 'Withdrawn', 'Moved']}
 
 
 def generate_su():
@@ -32,14 +33,23 @@ def generate_admin(mysql, dummy_info):
     first_name = '"' + random.choice(dummy_info['first_names']) + '"'
     middle_name = '"' + random.choice(string.ascii_letters[26:]) + '"'
     last_name = '"' + random.choice(dummy_info['last_names']) + '"'
+    home_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    home_city = '"' + 'San Francisco' + '"'
+    home_state = '"' + 'California' + '"'
+    home_zip = '"' + '94134' + '"'
+    work_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    work_city = '"' + 'San Francisco' + '"'
+    work_state = '"' + 'California' + '"'
+    work_zip = '"' + '94134' + '"'
     email = '"' + str(random.randint(100000, 1000000)) + '@email.edu' + '"'
     cell_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     work_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     home_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
-    values = (id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone)
+    values = (id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address,
+              work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone)
 
     query = 'INSERT INTO admins '
-    columns = '(id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone)'
+    columns = '(id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address, work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone)'
     query += columns + ' VALUES (' + ', '.join(values) + ');'
 
     cur.execute(query)
@@ -61,15 +71,24 @@ def generate_advisor(mysql, dummy_info):
     first_name = '"' + random.choice(dummy_info['first_names']) + '"'
     middle_name = '"' + random.choice(string.ascii_letters[26:]) + '"'
     last_name = '"' + random.choice(dummy_info['last_names']) + '"'
+    home_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    home_city = '"' + 'San Francisco' + '"'
+    home_state = '"' + 'California' + '"'
+    home_zip = '"' + '94134' + '"'
+    work_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    work_city = '"' + 'San Francisco' + '"'
+    work_state = '"' + 'California' + '"'
+    work_zip = '"' + '94134' + '"'
     email = '"' + str(random.randint(100000, 1000000)) + '@email.edu' + '"'
     cell_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     work_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     home_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     school = '"' + random.choice(dummy_info['schools']) + '"'
-    values = (id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone, school)
+    values = (id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address,
+              work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone, school)
 
     query = 'INSERT INTO advisors '
-    columns = '(id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone, school)'
+    columns = '(id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address, work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone, school)'
     query += columns + ' VALUES (' + ', '.join(values) + ');'
 
     cur.execute(query)
@@ -81,18 +100,27 @@ def generate_parent(mysql, dummy_info, student_id, parent_id):
     first_name = '"' + random.choice(dummy_info['first_names']) + '"'
     middle_name = '"' + random.choice(string.ascii_letters[26:]) + '"'
     last_name = '"' + random.choice(dummy_info['last_names']) + '"'
+    home_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    home_city = '"' + 'San Francisco' + '"'
+    home_state = '"' + 'California' + '"'
+    home_zip = '"' + '94134' + '"'
+    work_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    work_city = '"' + 'San Francisco' + '"'
+    work_state = '"' + 'California' + '"'
+    work_zip = '"' + '94134' + '"'
     email = '"' + str(random.randint(100000, 1000000)) + '@email.edu' + '"'
     cell_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     work_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     home_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
 
-    values = (parent_id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone, student_id)
+    values = (parent_id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip,
+              work_address, work_city, work_state, work_zip,email, cell_phone, work_phone, home_phone, student_id)
 
     con = mysql.connect()
     cur = con.cursor()
 
     query = 'INSERT INTO parents '
-    columns = '(id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone, student_id)'
+    columns = '(id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address, work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone, student_id)'
     query += columns + ' VALUES (' + ', '.join(values) + ');'
 
     cur.execute(query)
@@ -114,6 +142,14 @@ def generate_student_parents(mysql, dummy_info):
     first_name = '"' + random.choice(dummy_info['first_names']) + '"'
     middle_name = '"' + random.choice(string.ascii_letters[26:]) + '"'
     last_name = '"' + random.choice(dummy_info['last_names']) + '"'
+    home_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    home_city = '"' + 'San Francisco' + '"'
+    home_state = '"' + 'California' + '"'
+    home_zip = '"' + '94134' + '"'
+    work_address = '"' + str(random.randint(1000, 9999)) + ' ' + random.choice(dummy_info['street_name']) + '"'
+    work_city = '"' + 'San Francisco' + '"'
+    work_state = '"' + 'California' + '"'
+    work_zip = '"' + '94134' + '"'
     email = '"' + str(random.randint(100000, 1000000)) + '@email.edu' + '"'
     cell_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
     work_phone = '"' + str(415) + str(random.randint(0000000, 9999999)) + '"'
@@ -121,7 +157,7 @@ def generate_student_parents(mysql, dummy_info):
     school = '"' + random.choice(dummy_info['schools']) + '"'
     grade = '"' + random.choice(dummy_info['grade']) + '"'
     expected_grad = '"' + random.choice(['2021', '2022', '2023', '2024']) + '"'
-    gpa = str(random.randint(0, 5)) + '.' + str(random.randint(0, 100))
+    gpa = str(random.randint(0, 3)) + '.' + str(random.randint(0, 100))
     program_status = '"' + random.choice(dummy_info['status']) + '"'
     fmp_id = str(random.randint(100000, 1000000))
     parent_1_id = id + '01'
@@ -135,12 +171,12 @@ def generate_student_parents(mysql, dummy_info):
     advisor_id_list = [int(i[0]) for i in advisor_id_list]
     advisor_id = str(random.choice(advisor_id_list))
 
-    values = (id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone, school, grade,
-              expected_grad, gpa, program_status, fmp_id, parent_1_id, parent_2_id, advisor_id)
+    values = (id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address,
+              work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone, school, grade, expected_grad,
+              gpa, program_status, fmp_id, parent_1_id, parent_2_id, advisor_id)
 
     query = 'INSERT INTO students '
-    columns = '(id, first_name, middle_name, last_name, email, cell_phone, work_phone, home_phone, school, grade, ' +\
-              'expected_grad, gpa, program_status, fmp_id, parent_1_id, parent_2_id, advisor_id)'
+    columns = '(id, first_name, middle_name, last_name, home_address, home_city, home_state, home_zip, work_address, work_city, work_state, work_zip, email, cell_phone, work_phone, home_phone, school, grade, expected_grad, gpa, program_status, fmp_id, parent_1_id, parent_2_id, advisor_id)'
     query += columns + ' VALUES (' + ', '.join(values) + ');'
 
     cur.execute(query)
@@ -157,10 +193,10 @@ def main(mysql):
     for i in range(0, 3):
         generate_admin(mysql, dummy_info)
 
-    for i in range(0, 20):
+    for i in range(0, 5):
         generate_advisor(mysql, dummy_info)
 
-    for i in range(0, 100):
+    for i in range(0, 20):
         generate_student_parents(mysql, dummy_info)
 
     '''
