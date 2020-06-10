@@ -6,13 +6,52 @@
 {% endblock %}
 
 {% block content %}
+
 {% if user.authorization == 1 %}
+
+<form action="/edit_information" method="POST">
+    {{ form.csrf_token }}
+    {{ form.email(placeholder="Email") }}<br>
+    {{ form.cell_phone(placeholder="Cell Phone") }}<br>
+    {{ form.work_phone(placeholder="Work Phone") }}<br>
+    {{ form.home_phone(placeholder="Home Phone") }}<br>
+    {{ form.submit() }}
+</form>
 
 {% elif user.authorization == 2 %}
 
+<form action="/edit_information" method="POST">
+    {{ form.csrf_token }}
+    {{ form.email(placeholder="Email") }}<br>
+    {{ form.cell_phone(placeholder="Cell Phone") }}<br>
+    {{ form.work_phone(placeholder="Work Phone") }}<br>
+    {{ form.home_phone(placeholder="Home Phone") }}<br>
+    {{ form.submit() }}
+</form>
+
 {% elif user.authorization == 3 %}
 
+<form action="/edit_information" method="POST">
+    {{ form.csrf_token }}
+    {{ form.email(placeholder="Email") }}<br>
+    {{ form.cell_phone(placeholder="Cell Phone") }}<br>
+    {{ form.work_phone(placeholder="Work Phone") }}<br>
+    {{ form.home_phone(placeholder="Home Phone") }}<br>
+    {{ form.submit() }}
+</form>
+
 {% elif user.authorization == 4 %}
+
+<form action="/edit_information" method="POST">
+    {{ form.csrf_token }}
+    {{ form.email(placeholder="Email") }}<br>
+    {{ form.cell_phone(placeholder="Cell Phone") }}<br>
+    {{ form.work_phone(placeholder="Work Phone") }}<br>
+    {{ form.home_phone(placeholder="Home Phone") }}<br>
+    {{ form.submit() }}
+</form>
+
+{% else %}
 
 {% endif %}
 {% endblock %}

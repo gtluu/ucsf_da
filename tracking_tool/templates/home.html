@@ -15,7 +15,7 @@
     <p>Work Phone: {{ user_info.work_phone }}</p>
     <p>Home Phone: {{ user_info.home_phone }}</p>
     <form action="/edit_information">
-        <button type="button">Edit Information</button>
+        <button id="editinfo"  class="float-left submit-button">Edit Information</button>
     </form>
 </article>
 {% elif user.authorization == 2 %}
@@ -28,7 +28,7 @@
     <p>Home Phone: {{ user_info.home_phone }}</p>
     <p>School: {{ user_info.school }}</p>
     <form action="/edit_information">
-        <button type="button">Edit Information</button>
+        <button id="editinfo" class="float-left submit-button">Edit Information</button>
     </form>
 </article>
 {% elif user.authorization == 3 %}
@@ -43,7 +43,7 @@
     <p>Grade: {{ user_info.grade }}</p>
     <p>Expected Graduation: {{ user_info.expected_grad }}</p>
     <form action="/edit_information">
-        <button type="button">Edit Information</button>
+        <button id="editinfo" class="float-left submit-button">Edit Information</button>
     </form>
 </article>
 {% elif user.authorization == 4 %}
@@ -55,8 +55,14 @@
     <p>Work Phone: {{ user_info.work_phone }}</p>
     <p>Home Phone: {{ user_info.home_phone }}</p>
     <form action="/edit_information">
-        <button type="button">Edit Information</button>
+        <button id="editinfo" class="float-left submit-button">Edit Information</button>
     </form>
 </article>
 {% endif %}
+<script type="text/javascript">
+    document.getElementById("editinfo").onclick = function () {
+        location.href = "/edit_information";
+    };
+</script>
 {% endblock %}
+

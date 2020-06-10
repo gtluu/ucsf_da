@@ -8,8 +8,20 @@ from tracking_tool.forms import *
 
 @app.route("/")
 def root():
-    return render_template('login.html', title='Login', form=LoginForm(), user=current_user)
-
+    if current_user.is_authenticated:
+        username = current_user.username
+        user = User.query.filter(User.username == username).first()
+        if int(user.authorization) == 1:
+            user = Admins.query.filter(Admins.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 2:
+            user = Advisors.query.filter(Advisors.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 3:
+            user = Students.query.filter(Students.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 4:
+            user = Parents.query.filter(Parents.id == user.ucsf_da_id).first()
+        return render_template('home.html', title='Home', user=current_user, user_info=user)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -370,10 +382,37 @@ def sign_report():
         return redirect(url_for('login'))
 
 
-@app.route("/edit_information")
+@app.route("/edit_information", methods=['GET', 'POST'])
 def edit_information():
-    pass
+    form = editInformationForm(request.form)
 
+    if current_user.is_authenticated and request.method=='POST':
+        username = current_user.username
+        user = User.query.filter(User.username == username).first()
+
+        if int(user.authorization) == 1:
+            user = Admins.query.filter(Admins.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 2:
+            user = Advisors.query.filter(Advisors.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 3:
+            user = Students.query.filter(Students.id == user.ucsf_da_id).first()
+        elif int(user.authorization) == 4:
+            user = Parents.query.filter(Parents.id == user.ucsf_da_id).first()
+
+        # edit fields current_user would like to edit in admins/advisors/students/parents db
+        if form.email.data:
+            user.email = form.email.data
+        if form.cell_phone.data:
+            user.cell_phone = form.cell_phone.data
+        if form.work_phone.data:
+            user.work_phone = form.work_phone.data
+        if form.home_phone.data:
+            user.home_phone = form.home_phone.data
+
+        db.session.commit()
+        flash(f'Your information has been edited!', 'success')
+        return redirect(url_for('home'))
+    return render_template('edit_information.html', title='Edit Information', form=form, user=current_user)
 
 @app.route("/logout")
 def logout():

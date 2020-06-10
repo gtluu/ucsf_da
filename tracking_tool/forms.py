@@ -128,4 +128,8 @@ class WithdrawalForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class editInformationForm(FlaskForm):
-    pass
+    email = StringField('Email', validators=[Email()])
+    cell_phone = IntegerField('Cell Phone', validators=[])
+    work_phone = IntegerField('Work Phone', validators=[])
+    home_phone = IntegerField('Home Phone', validators=[])
+    submit = SubmitField('Update Information')
