@@ -10,7 +10,17 @@
     {{ form.csrf_token }}
     {{ form.email(placeholder="Email") }}<br>
     {{ form.ucsf_da_id(placeholder="UCSF DA ID") }}<br>
+    <ul class=flashes>
+    {% for error in form.ucsf_da_id.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
     {{ form.username(placeholder="Username") }}<br>
+     <ul class=flashes>
+    {% for error in form.username.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
     {{ form.password(placeholder="Password") }}<br>
     {{ form.confirm_password(placeholder="Confirm Password") }}<br><br>
     {{ form.submit() }}
