@@ -48,7 +48,7 @@ def register():
         salt, hashed_password = hash_password(form)
         user = User(id=generate_sys_id(),
                     authorization=set_auth_level(form),
-                    email=form.email.data,
+                    #email=form.email.data,
                     username=form.username.data,
                     salt=salt,
                     ucsf_da_id=form.ucsf_da_id.data,
@@ -413,6 +413,7 @@ def edit_information():
         flash(f'Your information has been edited!', 'success')
         return redirect(url_for('home'))
     return render_template('edit_information.html', title='Edit Information', form=form, user=current_user)
+
 
 @app.route("/logout")
 def logout():

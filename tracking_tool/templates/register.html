@@ -8,7 +8,6 @@
 {% block content %}
 <form action="/register" method="POST">
     {{ form.csrf_token }}
-    {{ form.email(placeholder="Email") }}<br>
     {{ form.ucsf_da_id(placeholder="UCSF DA ID") }}<br>
     <ul class=flashes>
     {% for error in form.ucsf_da_id.errors %}
@@ -21,7 +20,7 @@
       <li>{{ error }}</li>
     {% endfor %}
     </ul>
-    {{ form.password(placeholder="Password") }}<br>
+    {{ form.password(placeholder="Password") }}<br><br>
     {{ form.confirm_password(placeholder="Confirm Password") }}<br><br>
     {{ form.submit() }}
 </form>

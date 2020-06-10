@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS user (
     id int(6) NOT NULL UNIQUE,
     authorization int(1),
     ucsf_da_id int(64) UNIQUE,
-	email varchar(128) UNIQUE,
     username varchar(32) NOT NULL UNIQUE,
     salt varchar(255) NOT NULL,
     password varchar(255) NOT NULL UNIQUE,
