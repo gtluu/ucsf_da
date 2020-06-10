@@ -257,12 +257,14 @@ def student_report():
         if int(current_user.authorization) <= 2:
             student_id = int(request.args.get('id'))
         elif int(current_user.authorization) >= 3:
-            student_id = int(request.args.get('id'))
-            if student_id != current_user.ucsf_da_id:
-                if int(current_user.authorization) == 3:
+            if int(current_user.authorization) == 3:
+                student_id = int(request.args.get('id'))
+                if student_id != current_user.ucsf_da_id:
                     student_id = int(current_user.ucsf_da_id)
-                elif int(current_user.authorization) == 4:
-                    student_id = int(current_user.ucsf_da_id[:-2])
+            elif int(current_user.authorization) == 4:
+                student_id = int(request.args.get('id')[:-2])
+                if student_id != current_user.ucsf_da_id:
+                    student_id = int(str(current_user.ucsf_da_id)[:-2])
         student = Students.query.filter_by(id=student_id).first()
         tmp_reports = Reports.query.filter_by(id=student_id).all()
         reports = []
@@ -270,10 +272,14 @@ def student_report():
             if int(i.student_sig) != 0:
                 name = student.first_name + ' ' + student.middle_name + ' ' + student.last_name
                 i.student_sig = name
+            else:
+                i.student_sig = ' '
             if int(i.parent_sig) != 0:
                 parent = Parents.query.filter_by(id=i.parent_sig).first()
                 name = parent.first_name + ' ' + parent.middle_name + ' ' + parent.last_name
                 i.parent_sig = name
+            else:
+                i.parent_sig = ' '
             reports.append(i)
         title = student.first_name + ' ' + student.last_name
         return render_template('student_report.html', title=title, student=student, reports=reports, user=current_user)
@@ -360,16 +366,19 @@ def sign_report():
             form_id = request.args.get('form_id')
             form_timestamp = request.args.get('form_timestamp')
             report = Reports.query.filter_by(id=form_id, timestamp=form_timestamp).first()
+            print(report.student_sig)
+            print(report.parent_sig)
             if int(current_user.authorization) == 3:
-                signer = Students.query.filter_by(id=form_id).first()
+                signer = Students.query.filter_by(id=current_user.ucsf_da_id).first()
             elif int(current_user.authorization) == 4:
-                signer = Parents.query.filter_by(id=form_id).first()
+                signer = Parents.query.filter_by(id=current_user.ucsf_da_id).first()
             user = User.query.filter_by(ucsf_da_id=signer.id).first()
             if user and bcrypt.check_password_hash(user.password, form.password.data + user.salt):
                 if int(current_user.authorization) == 3:
                     report.student_sig = signer.id
                 elif int(current_user.authorization) == 4:
-                    report.student_sig = signer.id
+                    report.parent_sig = signer.id
+                print(report.student_sig)
                 db.session.commit()
                 return redirect(url_for('student_report', id=current_user.ucsf_da_id))
             else:

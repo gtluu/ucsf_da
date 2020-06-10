@@ -117,6 +117,6 @@ class Reports(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.datetime.now())
     program_status = db.Column(db.String(16), nullable=False)
     gpa = db.Column(db.String(60), nullable=False)
-    student_sig = db.Column(db.Integer)
-    parent_sig = db.Column(db.Integer)
+    student_sig = db.Column(db.String(64))
+    parent_sig = db.Column(db.String(64))
     notes = db.Column(db.Text(65535))

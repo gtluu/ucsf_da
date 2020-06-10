@@ -129,8 +129,8 @@ CREATE TABLE IF NOT EXISTS reports(
     timestamp TIMESTAMP,
     program_status varchar(16),
     gpa double(3, 2),
-    student_sig INT(64),
-    parent_sig INT(64),
+    student_sig varchar(64),
+    parent_sig varchar(64),
     notes TEXT,
     PRIMARY KEY (report_id)
 );

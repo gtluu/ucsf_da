@@ -56,7 +56,7 @@
         <td>{{ report.parent_sig }}</td>
         {% endif %}
         {% elif user.authorization == 3 %}
-        {% if report.student_sig == 0 %}
+        {% if report.student_sig == 0 or report.student_sig == ' ' %}
         <td><a href="{{url_for('get_signature', id=report.id, timestamp=report.timestamp)}}">Sign</a></td>
         {% else %}
         <td>{{ report.student_sig }}</td>
@@ -72,7 +72,7 @@
         {% else %}
         <td>{{ report.student_sig }}</td>
         {% endif %}
-        {% if report.parent_sig == 0 %}
+        {% if report.parent_sig == 0 or report.parent_sig == ' ' %}
         <td><a href="{{url_for('get_signature', id=report.id, timestamp=report.timestamp)}}">Sign</a></td>
         {% else %}
         <td>{{ report.parent_sig }}</td>
