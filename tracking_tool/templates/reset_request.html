@@ -1,0 +1,14 @@
+{% extends "header.html" %}
+
+{% block css %}
+<link href="static/css/index.css" type="text/css" rel="stylesheet"/>
+<link href="static/css/header.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<form action="/reset_password" method="POST">
+    {{ form.csrf_token }}
+    {{ form.email(placeholder="Email") }}<br>
+    {{ form.submit }}
+    </form>
+{% endblock %}
