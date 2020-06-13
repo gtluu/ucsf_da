@@ -1,7 +1,7 @@
-from tracking_tool import db, login_manager
+from tracking_tool import db, login_manager, app
 from flask_login import UserMixin
 import datetime
-
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 @login_manager.user_loader
 # check if User authenticated, active, annonymous, get ID
@@ -18,6 +18,21 @@ class User(db.Model, UserMixin):
     #email = db.Column(db.String(128), nullable=False)
     salt = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255), nullable=False)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'id': self.id}).decode('utf-8')
+
+    @staticmethod
+    # don't expect self as an argument; only token
+    def verify_reset_token(token):
+        # this is a static method
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            id = s.loads(token)['id']
+        except:
+            return None
+        return User.query.get(id)
 
     def __repr__(self): # how object is printed
         return f"User('{self.username}')"
@@ -41,6 +56,21 @@ class Admins(db.Model):
     work_phone = db.Column(db.String(10), nullable=False)
     home_phone = db.Column(db.String(10), nullable=False)
 
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'id': self.id}).decode('utf-8')
+
+    @staticmethod
+    # don't expect self as an argument; only token
+    def verify_reset_token(token):
+        # this is a static method
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            id = s.loads(token)['id']
+        except:
+            return None
+        return Admins.query.get(id)
+
 
 class Advisors(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -61,6 +91,20 @@ class Advisors(db.Model):
     home_phone = db.Column(db.String(10), nullable=False)
     school = db.Column(db.String(60), nullable=False)
 
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'id': self.id}).decode('utf-8')
+
+    @staticmethod
+    # don't expect self as an argument; only token
+    def verify_reset_token(token):
+        # this is a static method
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            id = s.loads(token)['id']
+        except:
+            return None
+        return Advisors.query.get(id)
 
 class Parents(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -81,6 +125,20 @@ class Parents(db.Model):
     home_phone = db.Column(db.String(10), nullable=False)
     student_id = db.Column(db.Integer, nullable=False)
 
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'id': self.id}).decode('utf-8')
+
+    @staticmethod
+    # don't expect self as an argument; only token
+    def verify_reset_token(token):
+        # this is a static method
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            id = s.loads(token)['id']
+        except:
+            return None
+        return Parents.query.get(id)
 
 class Students(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -109,6 +167,20 @@ class Students(db.Model):
     parent_2_id = db.Column(db.Integer, nullable=False)
     advisor_id = db.Column(db.Integer, nullable=False)
 
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'id': self.id}).decode('utf-8')
+
+    @staticmethod
+    # don't expect self as an argument; only token
+    def verify_reset_token(token):
+        # this is a static method
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            id = s.loads(token)['id']
+        except:
+            return None
+        return Students.query.get(id)
 
 class Reports(db.Model):
     report_id = db.Column(db.Integer, primary_key=True, unique=True)

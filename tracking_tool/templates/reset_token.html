@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<form action="/login" method="POST">
+<form action={{ action }} method="POST">
     {{ form.csrf_token }}
-    {{ form.username(placeholder="Username") }}<br>
     {{ form.password(placeholder="Password") }}<br><br>
-    {{ form.submit }}
-    <a style="float:center" href={{ url_for('reset_request') }}>Forgot Password?</a>
+    {{ form.confirm_password(placeholder="Confirm Password") }}<br><br>
+    {{ form.ucsf_da_id(placeholder="UCSF DA ID") }}<br><br>
+    {{ form.submit() }}
 </form>
 {% endblock %}

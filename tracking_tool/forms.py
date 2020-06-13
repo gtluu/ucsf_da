@@ -133,3 +133,41 @@ class editInformationForm(FlaskForm):
     work_phone = IntegerField('Work Phone', validators=[])
     home_phone = IntegerField('Home Phone', validators=[])
     submit = SubmitField('Update Information')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+
+        # checks whether email is associated with UCSF DA affiliated member
+        is_admin = Admins.query.filter_by(email=email.data).first()
+        is_advisor = Advisors.query.filter_by(email=email.data).first()
+        is_parent = Parents.query.filter_by(email=email.data).first()
+        is_student = Students.query.filter_by(email=email.data).first()
+
+        # checks whether UCSF DA affiliated member's ucsf_da_id is in user db
+        if is_admin:
+            admin_user = User.query.filter_by(ucsf_da_id=is_admin.id).first()
+            if admin_user is None:
+                raise ValidationError('There is no account with that email. You must register first.')
+        elif is_advisor:
+            advisor_user = User.query.filter_by(ucsf_da_id=is_advisor.id).first()
+            if advisor_user is None:
+                raise ValidationError('There is no account with that email. You must register first.')
+        elif is_parent:
+            parent_user = User.query.filter_by(ucsf_da_id=is_parent.id).first()
+            if parent_user is None:
+                raise ValidationError('There is no account with that email. You must register first.')
+        elif is_student:
+            student_user = User.query.filter_by(ucsf_da_id=is_student.id).first()
+            if student_user is None:
+                raise ValidationError('There is no account with that email. You must register first.')
+        else:
+            raise ValidationError('There is no account with that email. You must register first.')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    ucsf_da_id = IntegerField("Enter UCSF Doctor's Academy ID", validators=[DataRequired()])
+    submit = SubmitField('Reset Password')

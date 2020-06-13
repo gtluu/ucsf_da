@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, session
-from tracking_tool import app, db, bcrypt
+from tracking_tool import app, db, bcrypt, mail
 from flaskext.mysql import MySQL
 from flask_login import login_user, current_user, logout_user, login_required
 from tracking_tool.models import *
@@ -8,6 +8,7 @@ from datetime import timedelta
 import random
 import string
 import datetime
+from flask_mail import Message
 
 
 def check_session(page, data):
@@ -66,3 +67,81 @@ def get_timestamp():
     timestamp = str(timestamp.year) + '-' + str(timestamp.month) + '-' + str(timestamp.day) + ' ' +\
                 str(timestamp.hour) + ':' + str(timestamp.minute) + ':' + str(timestamp.second)
     return timestamp
+
+def find_user_in_db(form):
+
+    # checks where email is associated with UCSF DA affiliated member
+    is_admin = Admins.query.filter_by(email=form.email.data).first()
+    is_advisor = Advisors.query.filter_by(email=form.email.data).first()
+    is_parent = Parents.query.filter_by(email=form.email.data).first()
+    is_student = Students.query.filter_by(email=form.email.data).first()
+
+    # find user in database
+    if is_admin and not is_advisor and not is_student and not is_parent:
+        user = User.query.filter_by(ucsf_da_id=is_admin.id).first()
+    elif is_advisor and not is_admin and not is_student and not is_parent:
+        user = User.query.filter_by(ucsf_da_id=is_advisor.id).first()
+    elif is_student and not is_admin and not is_student and not is_parent:
+        user = User.query.filter_by(ucsf_da_id=is_student.id).first()
+    elif is_parent and not is_admin and not is_advisor and not is_student:
+        user = User.query.filter_by(ucsf_da_id=is_parent.id).first()
+    else:
+        user = None
+    return user
+
+def send_reset_email(user):
+
+    # find which db the user is in:
+    is_admin = Admins.query.filter_by(id=user.ucsf_da_id).first()
+    is_advisor = Advisors.query.filter_by(id=user.ucsf_da_id).first()
+    is_parent = Parents.query.filter_by(id=user.ucsf_da_id).first()
+    is_student = Students.query.filter_by(id=user.ucsf_da_id).first()
+
+    # set user variable to db entry that the user is in:
+    if is_admin:
+        user = is_admin
+    elif is_advisor:
+        user = is_advisor
+    elif is_parent:
+        user = is_parent
+    elif is_student:
+        user = is_student
+    else:
+        user = None
+
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender='sarah.woldemariam@ucsf.edu', recipients=[user.email])
+    msg.body = f''' To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+If you did not make this request, then simply ignore this email and no changes will be made.
+'''
+    # uncomment once we can connect to email server
+    #mail.send(msg)
+
+def client_db_that_the_token_is_in(token):
+
+    # get token from pertinent db
+    is_admin = Admins.verify_reset_token(token)
+    is_advisor = Advisors.verify_reset_token(token)
+    is_parent = Parents.verify_reset_token(token)
+    is_student = Students.verify_reset_token(token)
+
+    # set user to whichever variable is not None:
+    if is_admin:
+        user = is_admin
+    elif is_advisor:
+        user = is_advisor
+    elif is_parent:
+        user = is_parent
+    elif is_student:
+        user = is_student
+    else:
+        user = None
+
+    return user
+
+
+
+
+
+

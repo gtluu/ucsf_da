@@ -6,9 +6,14 @@
 {% endblock %}
 
 {% block content %}
-<form action="/reset_password" method="POST">
+<form action="" method="POST">
     {{ form.csrf_token }}
     {{ form.email(placeholder="Email") }}<br>
-    {{ form.submit }}
-    </form>
+    <ul class=flashes>
+    {% for error in form.email.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+    {{ form.submit() }}
+</form>
 {% endblock %}

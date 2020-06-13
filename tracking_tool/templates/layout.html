@@ -11,6 +11,15 @@
             <div id="box">
             </div>
         </header>
-        {% block content %}{% endblock %}
+        <div>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p>{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
     </body>
 </html>
